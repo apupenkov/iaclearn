@@ -1,5 +1,3 @@
-package strings.tests;
-
 import org.junit.jupiter.api.Test;
 import strings.StringTaskSolver;
 
@@ -7,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class TelegramPaymentReceiptTest {
     @Test
-    public void testTelegramPaymentReceipt() {
+    public void TelegramPaymentReceiptTest() {
         String telegram = "STOP. ARRIVING PARIS 9 A.M. THURSDAY. CAN-NOT MEET YOU. REGRET. MARY.";
         double pricePerWord = 0.05;
         double expectedCost = 0.55;
@@ -16,7 +14,7 @@ public class TelegramPaymentReceiptTest {
     }
 
     @Test
-    public void testTelegramPaymentReceiptEmptyTelegram() {
+    public void TelegramPaymentReceiptEmptyTelegramTest() {
         String telegram = "";
         double pricePerWord = 0.1;
         double expectedCost = 0.0;
@@ -25,7 +23,7 @@ public class TelegramPaymentReceiptTest {
     }
 
     @Test
-    public void testTelegramPaymentReceiptZeroPricePerWord() {
+    public void TelegramPaymentReceiptZeroPricePerWordTest() {
         String telegram = "URGENT. NEED HELP. STOP.";
         double pricePerWord = 0.0;
         double expectedCost = 0.0;
@@ -34,7 +32,7 @@ public class TelegramPaymentReceiptTest {
     }
 
     @Test
-    public void testTelegramPaymentReceiptNegativePricePerWord() {
+    public void TelegramPaymentReceiptNegativePricePerWordTest() {
         String telegram = "URGENT. NEED HELP. STOP.";
         double pricePerWord = -0.05;
         assertThrows(IllegalArgumentException.class, () -> StringTaskSolver.telegramPaymentReceipt(telegram, pricePerWord));

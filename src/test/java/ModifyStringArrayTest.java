@@ -1,5 +1,3 @@
-package strings.tests;
-
 import org.junit.jupiter.api.Test;
 import strings.StringTaskSolver;
 

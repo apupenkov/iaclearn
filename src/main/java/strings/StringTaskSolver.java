@@ -5,17 +5,17 @@ import java.util.*;
 public class StringTaskSolver {
     private static final String enAlphabet = "abcdefghijklmnopqrstuvwxyz";
 
-    public static String returStringWithoutLastChar(StringBuilder str) {
+    public static String returnStringWithoutLastChar(StringBuilder str) {
         return str.toString().substring(0, str.length() - 1);
     }
 
     public static Boolean checkEmptyString(String str) {
-        if (str == "" || str == null) return true;
+        if (str == "" || str == null || str == " ") return true;
         return false;
     }
 
     public static boolean isVowel(char c) {
-        return "aeiouy".indexOf(c) != -1;
+        return "aeiouyAEIOUY".indexOf(c) != -1;
     }
 
     public static String longestStringFromArray(String[] words) {
@@ -24,12 +24,43 @@ public class StringTaskSolver {
                 .orElseGet(String::new);
     }
 
+    public static boolean isSpaces(String str) {
+        if (str.trim().isEmpty()) return true;
+        return false;
+    }
+
+    public static boolean isPunct(char input) {
+        return ",.!?'\"/:;".indexOf(input) != -1;
+    }
+
+    /*public static boolean isLetter(char input) {
+        return Character.isLetter(input);
+    }*/
+
+    public static String removePunctuation(String input) {
+        StringBuilder output = new StringBuilder(input);
+        while (!Character.isLetter(output.charAt(output.length() - 1))) {
+            output.deleteCharAt(output.length() - 1);
+        }
+        return output.toString();
+    }
+
+    public static String getLengthWords(String input) {
+        StringBuilder output = new StringBuilder();
+        for (String str : input.split(" ")) {
+            output.append(removePunctuation(str).length() + " ");
+        }
+        return output.toString().trim();
+    }
+
     /*
     * [1]
     * В каждом слове текста k-ю букву заменить заданным символом. Если k больше длины слова, корректировку не выполнять.
     * */
     public static String replaceCharacterInWordsByIndex(String input, char replaceChar, int index) {
-        if (checkEmptyString(input) || replaceChar == '\0' || index < 0) return "";
+        if (checkEmptyString(input)) return "";
+        if (isSpaces(input) || replaceChar == '\0' || index < 0)
+            return input;
 
         StringBuilder output = new StringBuilder();
 
@@ -51,7 +82,8 @@ public class StringTaskSolver {
     * При выводе в одной строке печатать текст с двумя пробелами между буквами, в следующей строке внизу под каждой буквой печатать ее номер.
     * */
     public static String getAlphabetOrdinalNumbers(String input) {
-        if (checkEmptyString(input)) return "";
+        if (checkEmptyString(input) || isSpaces(input)) return "";
+
         StringBuilder output = new StringBuilder();
         for (char c : input.replaceAll("[^a-zA-Z]+", "").toLowerCase().toCharArray()) {
             if (Character.isLetter(c)) {
@@ -68,18 +100,17 @@ public class StringTaskSolver {
     * */
     public static String replaceCharacterAfterLetterP(String input) {
         if (checkEmptyString(input)) return "";
+        if (isSpaces(input)) return input;
+
         StringBuilder output = new StringBuilder();
 
         for (String s : input.split(" ")) {
-            StringBuilder temp = new StringBuilder(s);
-
-            if (s.toLowerCase().indexOf("p") != -1 &&
-                    s.toLowerCase().indexOf("p") < s.length() - 1) {
-                int t = s.toLowerCase().indexOf("p") + 1;
-                if (Character.toLowerCase(s.charAt(t)) == 'a') {
-                    temp.setCharAt(t, 'o');
-                }
-            }
+            s.replaceAll("pa", "po");
+            StringBuilder temp = new StringBuilder(
+                    s.replaceAll("pa", "po")
+                            .replaceAll("pA", "pO")
+                            .replaceAll("Pa", "Po")
+                            .replaceAll("PA", "PO"));
             output.append(temp + " ");
         }
 
@@ -92,7 +123,7 @@ public class StringTaskSolver {
     * */
     public static String insertSubstringByIndex(String input, int index, String substring) {
         if (checkEmptyString(input)) return "";
-        if (index < 0 || index > input.length()) return input;
+        if (index < 0 || index > input.length() || checkEmptyString(substring)) return input;
 
         return input.substring(0, index) + substring + input.substring(index);
     }
@@ -102,12 +133,17 @@ public class StringTaskSolver {
     * После каждого слова текста, заканчивающегося заданной подстрокой, вставить указанное слово.
     * */
     public static String insertWordAfterSubstring(String input, String substring, String word) {
-        if (checkEmptyString(input) || checkEmptyString(substring) || checkEmptyString(word)) return "";
+        if (checkEmptyString(input) || isSpaces(input)) return "";
+        if (checkEmptyString(substring)
+                || checkEmptyString(word) || isSpaces(substring)) return input;
         StringBuilder output = new StringBuilder();
         for (String s : input.split(" ")) {
-            output.append(s + " ");
-            if (s.endsWith(substring))
-                output.append(word + " ");
+            if (s.endsWith(substring)) {
+                output.append(s + word + " ");
+            }
+            else {
+                output.append(s + " ");
+            }
         }
         return output.toString().trim();
     }
