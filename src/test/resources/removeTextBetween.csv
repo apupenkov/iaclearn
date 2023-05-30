@@ -1,0 +1,10 @@
+input;expected;startChar;endChar
+"";"";(;)
+NULL;"";(;)
+"       ";"       ";{;}
+Hello (world)!;Hello !;(;)
+Hello *wor*ld*!;Hello ld*!;*;*
+Hello (world)!;Hello (world)!;(;]
+Hello [world)!;Hello !;[;)
+Hello world!;Hello world!;(;)
+Hello (world!;Hello (world!;(;)

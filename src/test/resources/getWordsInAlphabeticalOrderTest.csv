@@ -1,0 +1,4 @@
+input;expected
+"";""
+"hello world example apple banana";"apple banana example hello world"
+"this is a test string";"a is string test this"

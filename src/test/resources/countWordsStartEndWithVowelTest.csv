@@ -1,0 +1,6 @@
+input;expected
+"";0
+hello, world, java, programming;0
+apple;1
+And, the, apple, of, my, eye, is, vowel;2
+And, the, AppLe, of, my, eye, is, a, Vowel;2

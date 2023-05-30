@@ -4,7 +4,12 @@ import org.junit.runner.RunWith;
 
 @RunWith(JUnitPlatform.class)
 @SelectClasses({
-        ReplaceTest.class
+        ReplaceTest.class,
+        InsertTest.class,
+        ModifyTest.class,
+        RemoveTest.class,
+        FindTest.class,
+        CountTest.class
 })
 public class Main {
 }

@@ -1,0 +1,9 @@
+input;expected
+Hello   world;Hello world
+Java    is   awesome.;Java is awesome.
+Lorem ipsum   dolor   sit   amet.;Lorem ipsum dolor sit amet.
+Testing    the    function;Testing the function
+This   is   a   test   case.;This is a test case.
+     Hello; Hello
+    Test  Test; Test Test
+"     ";" "

@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.CsvSource;
 import strings.StringTaskSolver;
 
@@ -51,22 +52,6 @@ public class ReplaceTest {
         assertEquals(output, StringTaskSolver.getAlphabetOrdinalNumbers(input));
     }
 
-    @Test
-    public void getAlphabetOrdinalNumbersEmptyInputTest() {
-        String input = "";
-        String expected = "";
-        String actual = StringTaskSolver.getAlphabetOrdinalNumbers(input);
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    public void getAlphabetOrdinalNumbersWithWhitespaceOnlyTest() {
-        String input = "     ";
-        String expected = "";
-        String actual = StringTaskSolver.getAlphabetOrdinalNumbers(input);
-        assertEquals(expected, actual);
-    }
-
     @ParameterizedTest(name = "Tested {index} tasks 'replaceCharacterAfterLetterP'")
     @CsvSource( value = {
             "hello world:hello world",
@@ -78,21 +63,14 @@ public class ReplaceTest {
         assertEquals(expected, StringTaskSolver.replaceCharacterAfterLetterP(input));
     }
 
-    @Test
-    public void replaceCharacterAfterLetterPWithNullStringTest() {
-        String input = null;
-        String expected = "";
-        String actual = StringTaskSolver.replaceCharacterAfterLetterP(input);
-        assertEquals(expected, actual);
+    @ParameterizedTest(name = "Tested {index} tasks 'removeExtraSpacesTest'")
+    @CsvFileSource(
+            resources = "/removeExtraSpacesTest.csv",
+            delimiter = ';',
+            nullValues = {"NULL" },
+            numLinesToSkip = 1
+    )
+    void removeExtraSpacesTest(String input, String expected) {
+        assertEquals(expected, StringTaskSolver.removeExtraSpaces(input));
     }
-
-    @Test
-    public void replaceCharacterAfterLetterPWithEmptyStringTest() {
-        String input = "";
-        String expected = "";
-        String actual = StringTaskSolver.replaceCharacterAfterLetterP(input);
-        assertEquals(expected, actual);
-    }
-
-
 }

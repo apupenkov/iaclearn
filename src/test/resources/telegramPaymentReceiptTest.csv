@@ -1,0 +1,9 @@
+input;price;expected
+"";0.1;0.0
+URGENT. NEED HELP. STOP.;0.0;0.0
+URGENT. NEED HELP. STOP.;-0.05;0.0
+STOP. ARRIVING PARIS 9 A.M. THURSDAY. CAN-NOT MEET YOU. REGRET. MARY.;0.05;0.65
+.............;0.5;0.0
+everylonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglonglongworld;1.0;1.0
+abc-abc-abc-abc;0.5;2.0
+QWER, QWER. QWER: QWER1 ASDF;0.01;0.05

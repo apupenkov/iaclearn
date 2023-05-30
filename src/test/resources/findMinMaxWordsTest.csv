@@ -1,0 +1,6 @@
+input;expected
+"";""
+hello;hello
+hello world;hello, world
+hi world;hi, world
+the quick brown fox jumps over the lazy dog;the, fox, dog, quick, brown, jumps

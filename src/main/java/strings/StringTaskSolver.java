@@ -1,6 +1,8 @@
 package strings;
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class StringTaskSolver {
     private static final String enAlphabet = "abcdefghijklmnopqrstuvwxyz";
@@ -10,7 +12,7 @@ public class StringTaskSolver {
     }
 
     public static Boolean checkEmptyString(String str) {
-        if (str == "" || str == null || str == " ") return true;
+        if (str == "" || str == null || str == " " || str.isEmpty()) return true;
         return false;
     }
 
@@ -24,16 +26,27 @@ public class StringTaskSolver {
                 .orElseGet(String::new);
     }
 
+    private static boolean isConsonant(char c) {
+        c = Character.toLowerCase(c);
+        return c >= 'b' && c <= 'z' && !"aeiou".contains(String.valueOf(c));
+    }
+
     public static boolean isSpaces(String str) {
         if (str.trim().isEmpty()) return true;
         return false;
+    }
+
+    public static boolean isPunctuation(char c) {
+        String punctuationPattern = "\\p{Punct}";
+        return Pattern.matches(punctuationPattern, Character.toString(c));
     }
 
     public static boolean isPunct(char input) {
         return ",.!?'\"/:;".indexOf(input) != -1;
     }
 
-    /*public static boolean isLetter(char input) {
+    /*
+    public static boolean isLetter(char input) {
         return Character.isLetter(input);
     }*/
 
@@ -153,7 +166,9 @@ public class StringTaskSolver {
     * В зависимости от признака (0 или 1) в каждой строке текста удалить указанный символ везде, где он встречается, или вставить его после k-гo символа.
     * */
     public static String[] modifyStringArray(String[] inputs, boolean type, String character, int index) {
-        if (index < 0 || character == null || character == "") return inputs;
+        if (index < 0 || checkEmptyString(character)) return inputs;
+        if (inputs.length == 0) return new String[0];
+
         String[] output = new String[inputs.length];
         int i = 0;
         for (String string : inputs) {
@@ -161,7 +176,7 @@ public class StringTaskSolver {
                 output[i] = new String(string.replaceAll(character, ""));
             } else {
                 if (index >= string.length()) output[i] = string;
-                output[i] = string.substring(0, index) + character + string.substring(index);
+                else output[i] = string.substring(0, index) + character + string.substring(index);
             }
             i++;
         }
@@ -274,6 +289,8 @@ public class StringTaskSolver {
         if (input.length == 0) {
             return new String[] {""};
         }
+        if (input.length == 1)
+            if (input[0].isEmpty()) return new String[] {""};
 
         int index = 0;
         int vowels = 0, consonants = 0;
@@ -334,6 +351,7 @@ public class StringTaskSolver {
                 result.add(word);
             }
         }
+        if (result.size() == 0) return new String[] {""};
         return result.toArray(String[]::new);
     }
 
@@ -342,7 +360,7 @@ public class StringTaskSolver {
     * В тексте найти и напечатать все слова максимальной и все слова минимальной длины.
     * */
     public static String[] findMinMaxWords(String input) {
-        if (checkEmptyString(input)) return new String[0];
+        if (checkEmptyString(input)) return new String[] {""};
 //        String[] words = input.split("[\\s\\n\\t.,;:!?(){}]");
         List<String> minWords = new ArrayList<>();
         List<String> maxWords = new ArrayList<>();
@@ -373,12 +391,16 @@ public class StringTaskSolver {
      * [15]
      * Напечатать квитанцию об оплате телеграммы, если стоимость одного слова задана.
      * */
-    public static double telegramPaymentReceipt(String telegram, double pricePerWord) {
-        if (checkEmptyString(telegram)) return 0.0;
+    public static double telegramPaymentReceipt(String input, double pricePerWord) {
+        if (checkEmptyString(input) || isSpaces(input)) return 0.0;
         if (pricePerWord < 0) throw new IllegalArgumentException("The price cannot be less than zero");
 
-        String[] words = telegram.replaceAll("\\p{Punct}", "").split("\\s+");
-        int numWords = words.length;
+        if (!Pattern.matches(".*[a-zA-Z].*", input)) return 0.0;
+
+        Pattern pattern = Pattern.compile("\\b\\w+\\b");
+        Matcher matcher = pattern.matcher(input);
+
+        long numWords = matcher.results().count();
         double cost = numWords * pricePerWord;
         return cost;
     }
@@ -389,6 +411,7 @@ public class StringTaskSolver {
     * */
     public static char[] findCommonLetters(String input) {
         if (checkEmptyString(input)) return new char[0];
+
         String[] words = input.split("[\\s.,?!]+");
         Set<Character> common = new HashSet<>();
         Set<Character> letters = new HashSet<>();
@@ -438,33 +461,34 @@ public class StringTaskSolver {
     * [18]
     * В тексте определить все согласные буквы, встречающиеся не более чем в двух словах.
     * */
-//    public static Set<Character> findConsonantsInTwoWords(String input) {
-//        Set<Character> consonants = new HashSet<>();
-//        Set<Character> repeatedConsonants = new HashSet<>();
-//        Set<Character> uniqueConsonants = new HashSet<>();
-//        String[] words = input.split("\\W+");
-//        for (String word : words) {
-//            Set<Character> used = new HashSet<>();
-//            for (char c : word.toLowerCase().toCharArray()) {
-//                if (c >= 'a' && c <= 'z' && "bcdfghjklmnpqrstvwxyz".indexOf(c) >= 0) {
-//                    if (!used.contains(c)) {
-//                        if (uniqueConsonants.contains(c)) {
-//                            uniqueConsonants.remove(c);
-//                            repeatedConsonants.add(c);
-//                        } else if (!repeatedConsonants.contains(c)) {
-//                            uniqueConsonants.add(c);
-//                        }
-//                        consonants.add(c);
-//                        used.add(c);
-//                    } else {
-//                        repeatedConsonants.add(c);
-//                        uniqueConsonants.remove(c);
-//                    }
-//                }
-//            }
-//        }
-//        return uniqueConsonants;
-//    }
+    public static Set<Character> findConsonants(String input) {
+        if (checkEmptyString(input) || isSpaces(input)) return new HashSet<Character>();
+        Set<Character> consonants = new HashSet<>();
+        Map<Character, Integer> consonantCount = new HashMap<>();
+
+        String[] words = input.split("[\\s.,?!]+");
+
+        for (String word : words) {
+            Set<Character> uniqueConsonants = new HashSet<>();
+            for (char c : word.toCharArray()) {
+                if (Character.isLetter(c) && isConsonant(c)) {
+                    uniqueConsonants.add(c);
+                }
+            }
+
+            for (char c : uniqueConsonants) {
+                consonantCount.put(c, consonantCount.getOrDefault(c, 0) + 1);
+            }
+        }
+
+        for (Map.Entry<Character, Integer> entry : consonantCount.entrySet()) {
+            if (entry.getValue() <= 2) {
+                consonants.add(entry.getKey());
+            }
+        }
+
+        return consonants;
+    }
 
     /*
     * [19]
@@ -492,12 +516,13 @@ public class StringTaskSolver {
     * Подсчитать количество содержащихся в данном тексте знаков препинания.
     * */
     public static int countPunctuationMarks(String input) {
+        if (checkEmptyString(input)) return 0;
         if (input == null || input.isEmpty()) {
             return 0;
         }
         int count = 0;
         for (char c : input.toCharArray()) {
-            if (c == '.' || c == ',' || c == ';' || c == ':' || c == '?' || c == '!') {
+            if (isPunctuation(c)) {
                 count++;
             }
         }
@@ -518,4 +543,195 @@ public class StringTaskSolver {
         }
         return sum;
     }
+
+    /*
+    * [22]
+    * Из кода Java удалить все комментарии (//, /*, /**).
+    * */
+    public static String removeComments(String code) {
+        if (checkEmptyString(code)) return "";
+
+        code = code.replaceAll("//.*", "");
+
+        code = code.replaceAll("/\\*(.|\\R)*?\\*/", "");
+
+        code = code.replaceAll("/\\*\\*.*?\\*/", "");
+
+        return code;
+    }
+
+    /*
+    * [23]
+    * Все слова текста встречаются четное количество раз, за исключением одного. Определить это слово. При сравнении слов регистр не учитывать.
+    * */
+    public static String findOddWord(String input) {
+        if (checkEmptyString(input)) return "";
+
+        input = input.toLowerCase();
+
+        String[] words = input.split("\\s+");
+
+        Map<String, Integer> wordCounts = new HashMap<>();
+
+        for (String word : words) {
+            if (!wordCounts.containsKey(word)) {
+                wordCounts.put(word, 1);
+            } else {
+                wordCounts.put(word, wordCounts.get(word) + 1);
+            }
+        }
+
+        StringBuilder oddWord = new StringBuilder("");
+        for (Map.Entry<String, Integer> entry : wordCounts.entrySet()) {
+            if (entry.getValue() % 2 != 0) {
+                oddWord.append(entry.getKey());
+                break;
+            }
+        }
+
+        return oddWord.toString();
+    }
+
+    /*
+    * [24]
+    * Из текста удалить все лишние пробелы, если они разделяют два различных знака препинания, и если рядом с ними находится еще один пробел.
+    * */
+    public static String removeExtraSpaces(String input) {
+        if (checkEmptyString(input)) return "";
+
+        return input.replaceAll("[ \\t]{2,}", " ");
+    }
+
+    /*
+    * [25]
+    * Строка состоит из упорядоченных чисел от 0 до 100000, записанных подряд без пробелов. Определить, что будет подстрокой от позиции n до m.
+    * */
+    public static String getSubstring(String input, int n, int m) {
+        if (n < 0 || m >= input.length() || n > m) {
+            throw new IllegalArgumentException("Invalid indices");
+        }
+
+        return input.substring(n, m + 1);
+    }
+
+    /*
+    * [26]
+    * Определить количество вхождений заданного слова в текст, игнорируя регистр символов и считая буквы «е», «ё», и «и», «й» одинаковыми.
+    * */
+    public static int countWordOccurrences(String input, String word) {
+        if (checkEmptyString(input) || checkEmptyString(word)) return 0;
+        String text = input.toLowerCase().replace("ё", "е").replace("й", "е");
+        String sword = word.toLowerCase().replace("ё", "е").replace("й", "е");
+
+        String[] words = text.split("[\\s.,?!]+");
+
+        int count = 0;
+        for (String w : words) {
+            if (w.equals(sword)) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    /*
+    * [27]
+    * Преобразовать текст так, чтобы только первые буквы каждого предложения были заглавными.
+    * */
+
+    public static String capitalizeSentences(String text) {
+        if (checkEmptyString(text)) return "";
+        StringBuilder result = new StringBuilder(text.toLowerCase());
+
+        boolean capitalizeNext = true;
+        for (int i = 0; i < result.length(); i++) {
+            char currentChar = result.charAt(i);
+
+            if (capitalizeNext && Character.isLetter(currentChar)) {
+                result.setCharAt(i, Character.toUpperCase(currentChar));
+                capitalizeNext = false;
+            }
+
+            if (currentChar == '.' || currentChar == '!' || currentChar == '?') {
+                capitalizeNext = true;
+            }
+        }
+
+        return result.toString();
+    }
+
+    /*
+    * [28]
+    * Заменить все одинаковые рядом стоящие в тексте символы одним символом.
+    * */
+    public static String replaceDuplicateCharacters(String text) {
+        if (checkEmptyString(text) || isSpaces(text)) return "";
+        StringBuilder result = new StringBuilder();
+
+        char previousChar = '\0';
+        for (int i = 0; i < text.length(); i++) {
+            char currentChar = text.charAt(i);
+
+            if (currentChar != previousChar) {
+                result.append(currentChar);
+                previousChar = currentChar;
+            }
+        }
+
+        return result.toString();
+    }
+
+    /*
+    * [29]
+    * Вывести в заданном тексте все слова, расположив их в алфавитном порядке.
+    * */
+    public static String getWordsInAlphabeticalOrder(String text) {
+        if (checkEmptyString(text)) return "";
+        String[] words = text.split("\\s+");
+
+        Arrays.sort(words, String.CASE_INSENSITIVE_ORDER);
+
+        StringBuilder result = new StringBuilder();
+        for (String word : words) {
+            result.append(word + " ");
+        }
+        return result.toString().trim();
+    }
+
+    /*
+    * [30]
+    * Подсчитать, сколько слов в заданном тексте начинается с прописной буквы.
+    * */
+    public static int countWordsStartingWithUppercase(String text) {
+        String[] words = text.split("\\s+");
+        int count = 0;
+
+        for (String word : words) {
+            if (!word.isEmpty() && Character.isUpperCase(word.charAt(0))) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    /*
+    * [31]
+    * Подсчитать, сколько раз заданное слово входит в текст
+    * */
+    public static int countWordOccurrencesInTexts(String text, String word) {
+        if (checkEmptyString(text) || checkEmptyString(word)) return 0;
+        String[] words = text.split("\\s+");
+        int count = 0;
+
+        for (String w : words) {
+            if (w.equalsIgnoreCase(word)) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
 }

@@ -1,0 +1,4 @@
+input;expected
+"This is a Test string with Words starting with Uppercase.";5
+"This TEXT Contains Multiple Words with Uppercase Start.";4
+"no words start with uppercase in this sentence.";0

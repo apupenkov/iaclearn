@@ -1,0 +1,8 @@
+input;expected
+"";""
+NULL;""
+          ;""
+12398713(*&$*@&987987;""
+Hello, World!;Hel lo World
+aabbcc;a ab bc c
+1a2b3c4d;abcd

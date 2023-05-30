@@ -1,0 +1,7 @@
+input;expected
+"";""
+hello;consonants
+hello world, goodbye, testing;consonants, vowels, consonants
+HelLO WoRLD, GOOdbYE, teStinG;consonants, vowels, consonants
+hello world!, goodbye..., testing?;consonants, vowels, consonants
+AAAbbbiiiDDD, 1234asdfzxcv;equals, consonants

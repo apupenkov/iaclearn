@@ -1,0 +1,6 @@
+input|expected
+""|0
+NULL|0
+This text contains no punctuation marks|0
+This text contains 2 commas, 1 period. 1 exclamation mark! and 1 question mark?|4
+.,;:!??!|8

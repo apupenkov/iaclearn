@@ -1,0 +1,8 @@
+text;word;expectedCount
+"";"";0
+NULL;"";0
+"";NULL;0
+NULL;NULL;0
+"This is a test text. Test word is repeated multiple times in the text.";"test";2
+"This TEXT Contains Multiple Test Words. test word is not repeated here.";"Test";2
+"The word test is TESTed multiple times in this tEst sentence.";"Test";2

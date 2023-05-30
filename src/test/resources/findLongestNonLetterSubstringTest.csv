@@ -1,0 +1,10 @@
+input;expected
+"";""
+abc123def456ghij;123
+1a2b3c4d5e6f7g8h9i0j;1
+aBcDeFgHiJkLmNoPqRsTuVwXyZ;""
+Hello, world! This is a test.;", "
+This is a test without any non-letter characters.;" "
+12345hello1234567world98765;1234567
+12345 12345 12345 12345 12345;12345 12345 12345 12345 12345
+!@#$%^&*()_+abcd;!@#$%^&*()_+

@@ -1,0 +1,6 @@
+input;expected
+"";""
+hello;Hello
+THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG.;The Quick Brown Fox Jumps Over The Lazy Dog.
+ThE QuiCk brOwN foX jumPs oVeR thE laZy doG.;The Quick Brown Fox Jumps Over The Lazy Dog.
+hello, world! my na-me is j'ohn.;Hello, World! My na-me Is j'ohn.

@@ -1,0 +1,11 @@
+input;expected;type;character;index
+"";"";false;+;2
+"     ", hi, a;" x    ", hi, a;false;x;2
+"";"";true;" ";3
+hello, world, java;he+llo, wo+rld, ja+va;false;+;2
+hello, world, java;heo, word, java;true;l;0
+hello, world, java;hello, world, java;false;+;-1
+hello, world, java;hello, world, java;false;NULL;3
+hello, world, java;hello, world, java;false;;2
+hello, world, java;heasdfllo, woasdfrld, jaasdfva;false;asdf;2
+hello, world, java;hello, world, java;false;asdf;15
