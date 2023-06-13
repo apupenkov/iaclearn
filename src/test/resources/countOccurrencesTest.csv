@@ -1,0 +1,4 @@
+input;word;expected
+"This is a sample text. The word apple appears multiple times in this text apple.";apple;2
+"This text does not contain the word apple.";apple;1
+"This text contains the word Apple with a capital letter.";apple;0

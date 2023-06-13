@@ -1,7 +1,6 @@
 package book.chapter7.examples;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Comparator;
 
 public class LearnComparator {
@@ -17,7 +16,5 @@ public class LearnComparator {
         Arrays.stream(str.split("\\s"))
                 .sorted(Comparator.comparing(String::length).thenComparing(String::compareTo))
                 .forEach(s -> System.out.printf("%s ", s));
-
-
     }
 }
