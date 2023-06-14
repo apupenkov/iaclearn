@@ -1,13 +1,13 @@
+import book.chapter7.tasks.FunctionSolver;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.converter.ConvertWith;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import strings.StringTaskSolver;
+import strings.TaskSolver;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -275,5 +275,21 @@ public class FindTest {
     )
     void getSubstringTest(String input, int n, int m, String expected) {
         assertEquals(expected, StringTaskSolver.getSubstring(input, n, m));
+    }
+
+    @ParameterizedTest(name = "Tested {index} tasks 'generatePrimesTest'")
+    @CsvFileSource(
+            resources = "/generatePrimesTest.csv",
+            delimiter = ';',
+            nullValues = {"NULL" },
+            numLinesToSkip = 1
+    )
+    void generatePrimesTest(
+            int n,
+            @ConvertWith(StringArrayConverter.class) String[] expected) {
+        int[] ex = Stream.of(expected).mapToInt(Integer::parseInt).toArray();
+        int[] actual = FunctionSolver.generatePrimes(n).toArray();
+
+        assertArrayEquals(ex, actual);
     }
 }

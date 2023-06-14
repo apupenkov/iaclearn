@@ -1,9 +1,13 @@
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.converter.ConvertWith;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import strings.StringTaskSolver;
 
+import java.util.Arrays;
+import java.util.List;
+
+import static book.chapter7.tasks.FunctionSolver.transformPrices;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -65,5 +69,33 @@ public class ModifyTest {
     )
     public void getWordsInAlphabeticalOrderTest(String input, String expected) {
         assertEquals(expected, StringTaskSolver.getWordsInAlphabeticalOrder(input));
+    }
+
+    @ParameterizedTest(name = "Tested {index} tasks 'sortVowelsAndConsonantsTest'")
+    @CsvFileSource(
+            resources = "/sortVowelsAndConsonantsTest.csv",
+            delimiter = ';',
+            nullValues = {"NULL"},
+            numLinesToSkip = 1
+    )
+    public void sortVowelsAndConsonantsTest(String input, String expected) {
+        assertEquals(expected, StringTaskSolver.getWordsInAlphabeticalOrder(input));
+    }
+
+    @ParameterizedTest(name = "Tested {index} tasks 'transformPricesTest'")
+    @CsvFileSource(
+            resources = "/transformPricesTest.csv",
+            delimiter = ';',
+            nullValues = {"NULL"},
+            numLinesToSkip = 1
+    )
+    public void transformPricesTest(
+            @ConvertWith(StringArrayConverter.class) String[] inputPrices,
+            double cost,
+            @ConvertWith(StringArrayConverter.class) String[] expectedOutputPrices
+    ) {
+        List<Double> input = Arrays.stream(inputPrices).mapToDouble(Double::parseDouble).boxed().toList();
+        List<Double> transformedPrices = transformPrices(input, cost);
+        Assertions.assertEquals(Arrays.stream(expectedOutputPrices).mapToDouble(Double::parseDouble).boxed().toList(), transformedPrices);
     }
 }

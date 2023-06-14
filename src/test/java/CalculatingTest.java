@@ -18,4 +18,26 @@ public class CalculatingTest {
         Function<Integer, Function<Integer, Integer>> add = FunctionSolver.add();
         assertEquals(add.apply(a).apply(b), result);
     }
+
+    @ParameterizedTest(name = "Tested {index} tasks 'factorialTest'")
+    @CsvFileSource(
+            resources = "/factorialTest.csv",
+            delimiter = ';',
+            nullValues = {"NULL"},
+            numLinesToSkip = 1
+    )
+    public void factorialTest(int input, int expected) {
+        assertEquals(expected, FunctionSolver.factorial(input));
+    }
+
+    @ParameterizedTest(name = "Tested {index} tasks 'inscribedCircleRadiusTest'")
+    @CsvFileSource(
+            resources = "/inscribedCircleRadiusTest.csv",
+            delimiter = ';',
+            nullValues = {"NULL"},
+            numLinesToSkip = 1
+    )
+    public void inscribedCircleRadiusTest(double a, double b, double expected) {
+        assertEquals(expected, FunctionSolver.inscribedCircleRadius(a, b));
+    }
 }

@@ -1,0 +1,5 @@
+input;expected
+The quick brown fox jumps over the lazy dog;true
+Pack my box with five dozen liquor jugs;true
+Hello World;false
+Lorem ipsum dolor sit amet, consectetur adipiscing elit;false

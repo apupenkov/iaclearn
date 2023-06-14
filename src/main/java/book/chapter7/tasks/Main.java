@@ -118,6 +118,21 @@ public class Main {
 
         int occurrences = countOccurrences.apply(x);
         System.out.println("Количество вхождений цифры " + digit + " в числе " + x + ": " + occurrences);
+
+        // task 19
+        Predicate<Integer> condition = n -> n > 0;
+        Function<Integer, String> ifTrue = n -> "Число положительное";
+        Function<Integer, String> ifFalse = m -> "Число отрицательное";
+
+        Function<Integer, String> result1 = ternaryOperator(condition, ifTrue, ifFalse);
+
+        int num2 = 10;
+        String output = result1.apply(num2);
+        System.out.println(output);
+
+
+        // task 20
+        System.out.println(factorial(5));
     }
 
     // int... - передаётся любое количество переменных.
