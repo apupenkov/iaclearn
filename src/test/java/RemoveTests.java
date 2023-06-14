@@ -1,13 +1,16 @@
+import book.chapter7.tasks.FunctionSolver;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.converter.ConvertWith;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import strings.StringTaskSolver;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class RemoveTest {
+public class RemoveTests {
 
-    @ParameterizedTest(name = "Tested {index} tasks 'modifyStringArray'")
+    @ParameterizedTest(name = "Tested {index} tasks {displayName}")
     @CsvFileSource(
             resources = "/sanitizeTextTest.csv",
             delimiter = ';',
@@ -18,7 +21,7 @@ public class RemoveTest {
         assertEquals(expected, StringTaskSolver.sanitizeText(input));
     }
 
-    @ParameterizedTest(name = "Tested {index} tasks 'modifyStringArray'")
+    @ParameterizedTest(name = "Tested {index} tasks {displayName}")
     @CsvFileSource(
             resources = "/removeTextBetween.csv",
             delimiter = ';',
@@ -54,7 +57,19 @@ public class RemoveTest {
                 "}";
         String codeWithoutComments = StringTaskSolver.removeComments(code);
         assertEquals(expected, codeWithoutComments);
-//        System.out.println(code);
-//        System.out.println(codeWithoutComments);
+    }
+
+    @ParameterizedTest(name = "Tested {index} tasks {displayName}")
+    @CsvFileSource(
+            resources = "/removeDuplicatesTest.csv",
+            delimiter = ';',
+            nullValues = {"NULL"},
+            numLinesToSkip = 1
+    )
+    public void removeDuplicatesTest(
+            @ConvertWith(StringArrayConverter.class) String[] input,
+            @ConvertWith(StringArrayConverter.class) String[] expected
+    ) {
+        assertArrayEquals(expected, FunctionSolver.removeDuplicates(input));
     }
 }

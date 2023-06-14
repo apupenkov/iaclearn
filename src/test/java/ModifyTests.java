@@ -1,3 +1,4 @@
+import book.chapter7.tasks.FunctionSolver;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.converter.ConvertWith;
@@ -11,9 +12,9 @@ import static book.chapter7.tasks.FunctionSolver.transformPrices;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ModifyTest {
+public class ModifyTests {
 
-    @ParameterizedTest(name = "Tested {index} tasks 'modifyStringArray'")
+    @ParameterizedTest(name = "Tested {index} tasks {displayName}")
     @CsvFileSource(
             resources = "/modifyStringArrayTest.csv",
             delimiter = ';',
@@ -27,7 +28,7 @@ public class ModifyTest {
         assertArrayEquals(expected, StringTaskSolver.modifyStringArray(input, type, character, index));
     }
 
-    @ParameterizedTest(name = "Tested {index} tasks 'capitalizeWordsTest'")
+    @ParameterizedTest(name = "Tested {index} tasks {displayName}")
     @CsvFileSource(
             resources = "/capitalizeWordsTest.csv",
             delimiter = ';',
@@ -38,7 +39,7 @@ public class ModifyTest {
         assertEquals(expected, StringTaskSolver.capitalizeWords(input));
     }
 
-    @ParameterizedTest(name = "Tested {index} tasks 'capitalizeSentencesTest'")
+    @ParameterizedTest(name = "Tested {index} tasks {displayName}")
     @CsvFileSource(
             resources = "/capitalizeSentencesTest.csv",
             delimiter = ';',
@@ -49,7 +50,7 @@ public class ModifyTest {
         assertEquals(expected, StringTaskSolver.capitalizeSentences(input));
     }
 
-    @ParameterizedTest(name = "Tested {index} tasks 'replaceDuplicateCharactersTest'")
+    @ParameterizedTest(name = "Tested {index} tasks {displayName}")
     @CsvFileSource(
             resources = "/replaceDuplicateCharactersTest.csv",
             delimiter = ';',
@@ -60,7 +61,7 @@ public class ModifyTest {
         assertEquals(expected, StringTaskSolver.replaceDuplicateCharacters(input));
     }
 
-    @ParameterizedTest(name = "Tested {index} tasks 'getWordsInAlphabeticalOrderTest'")
+    @ParameterizedTest(name = "Tested {index} tasks {displayName}")
     @CsvFileSource(
             resources = "/getWordsInAlphabeticalOrderTest.csv",
             delimiter = ';',
@@ -71,18 +72,7 @@ public class ModifyTest {
         assertEquals(expected, StringTaskSolver.getWordsInAlphabeticalOrder(input));
     }
 
-    @ParameterizedTest(name = "Tested {index} tasks 'sortVowelsAndConsonantsTest'")
-    @CsvFileSource(
-            resources = "/sortVowelsAndConsonantsTest.csv",
-            delimiter = ';',
-            nullValues = {"NULL"},
-            numLinesToSkip = 1
-    )
-    public void sortVowelsAndConsonantsTest(String input, String expected) {
-        assertEquals(expected, StringTaskSolver.getWordsInAlphabeticalOrder(input));
-    }
-
-    @ParameterizedTest(name = "Tested {index} tasks 'transformPricesTest'")
+    @ParameterizedTest(name = "Tested {index} tasks {displayName}")
     @CsvFileSource(
             resources = "/transformPricesTest.csv",
             delimiter = ';',
@@ -97,5 +87,19 @@ public class ModifyTest {
         List<Double> input = Arrays.stream(inputPrices).mapToDouble(Double::parseDouble).boxed().toList();
         List<Double> transformedPrices = transformPrices(input, cost);
         Assertions.assertEquals(Arrays.stream(expectedOutputPrices).mapToDouble(Double::parseDouble).boxed().toList(), transformedPrices);
+    }
+
+    @ParameterizedTest(name = "Tested {index} tasks {displayName}")
+    @CsvFileSource(
+            resources = "/reverseStringTest.csv",
+            delimiter = ';',
+            nullValues = {"NULL"},
+            numLinesToSkip = 1
+    )
+    public void reverseStringTest(
+            String input,
+            String expected
+    ) {
+        assertEquals(expected, FunctionSolver.reverseString(input));
     }
 }

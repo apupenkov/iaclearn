@@ -1,0 +1,4 @@
+input;letter;size;expected
+"";a;0;""
+Lorem, ipsum dolor, sit, amet, consectetur, adipiscing, elit, som;s;0;""
+Lorem, ipsum dolor, sit, amet, consectetur, adipiscing, elit, som;s;3;sit, som

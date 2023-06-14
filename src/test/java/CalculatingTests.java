@@ -1,4 +1,5 @@
 import book.chapter7.tasks.FunctionSolver;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 
@@ -6,8 +7,8 @@ import java.util.function.Function;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class CalculatingTest {
-    @ParameterizedTest(name = "Tested {index} tasks 'addTest'")
+public class CalculatingTests {
+    @ParameterizedTest(name = "Tested {index} tasks {displayName}")
     @CsvFileSource(
             resources = "/addTest.csv",
             delimiter = ';',
@@ -19,7 +20,7 @@ public class CalculatingTest {
         assertEquals(add.apply(a).apply(b), result);
     }
 
-    @ParameterizedTest(name = "Tested {index} tasks 'factorialTest'")
+    @ParameterizedTest(name = "Tested {index} tasks {displayName}")
     @CsvFileSource(
             resources = "/factorialTest.csv",
             delimiter = ';',
@@ -30,7 +31,7 @@ public class CalculatingTest {
         assertEquals(expected, FunctionSolver.factorial(input));
     }
 
-    @ParameterizedTest(name = "Tested {index} tasks 'inscribedCircleRadiusTest'")
+    @ParameterizedTest(name = "Tested {index} tasks {displayName}")
     @CsvFileSource(
             resources = "/inscribedCircleRadiusTest.csv",
             delimiter = ';',
@@ -39,5 +40,10 @@ public class CalculatingTest {
     )
     public void inscribedCircleRadiusTest(double a, double b, double expected) {
         assertEquals(expected, FunctionSolver.inscribedCircleRadius(a, b));
+    }
+
+    @Test
+    public void getPiTest() {
+        assertEquals(Math.PI, FunctionSolver.getPi());
     }
 }

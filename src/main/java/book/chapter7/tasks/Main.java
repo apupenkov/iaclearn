@@ -1,8 +1,10 @@
 package book.chapter7.tasks;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -87,20 +89,21 @@ public class Main {
         double a = 3.0;
         double b = 4.0;
         double c = 5.0;
+//
+//        Predicate<Triangle> isTriangle = triplet ->
+//                (triplet.a + triplet.b > triplet.c) &&
+//                        (triplet.a + triplet.c > triplet.b) &&
+//                        (triplet.b + triplet.c > triplet.a);
+//
+//        Triangle triplet = new Triangle(a, b, c);
 
-        Predicate<Triangle> isTriangle = triplet ->
-                (triplet.a + triplet.b > triplet.c) &&
-                        (triplet.a + triplet.c > triplet.b) &&
-                        (triplet.b + triplet.c > triplet.a);
-
-        Triangle triplet = new Triangle(a, b, c);
-
-        if (isTriangle.test(triplet)) {
+        if (FunctionSolver.isTriangle(a, b, c)) {
             System.out.println("Можно образовать треугольник");
         } else {
             System.out.println("Нельзя образовать треугольник");
         }
 
+        // task 18
         int x = 123536739;
         int digit = 3;
 
@@ -133,6 +136,21 @@ public class Main {
 
         // task 20
         System.out.println(factorial(5));
+
+        // task 30
+        List<Point2D> polygon = Arrays.asList(
+                new Point2D.Double(0.0, 0.0),
+                new Point2D.Double(4.0, 0.0),
+                new Point2D.Double(4.0, 4.0),
+                new Point2D.Double(0.0, 4.0)
+        );
+
+        Point2D point = new Point2D.Double(2, 2);
+
+        boolean isInside = isPointInsidePolygon(polygon, point);
+        System.out.println("Точка внутри многоугольника: " + isInside);
+
+        // task 32
     }
 
     // int... - передаётся любое количество переменных.

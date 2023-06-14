@@ -1,0 +1,4 @@
+input;letter;expected
+"";a;""
+hello, world, Hanny, qwerty, Harry;h;hello, Hanny, Harry
+hi, my, name, is, Jony;a;""

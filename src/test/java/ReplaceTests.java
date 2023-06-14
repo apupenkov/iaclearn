@@ -6,14 +6,14 @@ import strings.StringTaskSolver;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ReplaceTest {
+public class ReplaceTests {
 
     @Test
     public void isSpaceTest() {
         assertEquals(true, StringTaskSolver.isSpaces("    "));
     }
 
-    @ParameterizedTest(name = "Test getLengthWords")
+    @ParameterizedTest(name = "Tested {index} tasks {displayName}")
     @CsvSource( value = {
             "asdf:4",
             "Hello, world:5 5",
@@ -23,7 +23,7 @@ public class ReplaceTest {
         assertEquals(output, StringTaskSolver.getLengthWords(input));
     }
 
-    @ParameterizedTest(name = "Tested {index} tasks 'replaceCharacterInWordsByIndex'")
+    @ParameterizedTest(name = "Tested {index} tasks {displayName}")
     @CsvSource( value = {
             "      :'':3:X",
             "'':'':5:x",
@@ -38,7 +38,7 @@ public class ReplaceTest {
         assertEquals(output, StringTaskSolver.replaceCharacterInWordsByIndex(input, replaceChar, index));
     }
 
-    @ParameterizedTest(name = "Tested {index} tasks 'getAlphabetOrdinalNumbers'")
+    @ParameterizedTest(name = "Tested {index} tasks {displayName}")
     @CsvSource( value = {
             "      :''",
             "'':''",
@@ -52,7 +52,7 @@ public class ReplaceTest {
         assertEquals(output, StringTaskSolver.getAlphabetOrdinalNumbers(input));
     }
 
-    @ParameterizedTest(name = "Tested {index} tasks 'replaceCharacterAfterLetterP'")
+    @ParameterizedTest(name = "Tested {index} tasks {displayName}")
     @CsvSource( value = {
             "hello world:hello world",
             "apple paar peach:apple poar peach",
@@ -63,7 +63,7 @@ public class ReplaceTest {
         assertEquals(expected, StringTaskSolver.replaceCharacterAfterLetterP(input));
     }
 
-    @ParameterizedTest(name = "Tested {index} tasks 'removeExtraSpacesTest'")
+    @ParameterizedTest(name = "Tested {index} tasks {displayName}")
     @CsvFileSource(
             resources = "/removeExtraSpacesTest.csv",
             delimiter = ';',

@@ -4,9 +4,9 @@ import strings.StringTaskSolver;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class InsertTest {
+public class InsertTests {
 
-    @ParameterizedTest(name = "Tested {index} tasks 'insertWordAfterSubstring'")
+    @ParameterizedTest(name = "Tested {index} tasks {displayName}")
     @CsvSource( value ={
             "'':'':1:a",
             "     :'':1:a",
@@ -19,7 +19,7 @@ public class InsertTest {
         assertEquals(expected, StringTaskSolver.insertSubstringByIndex(input, index, substring));
     }
 
-    @ParameterizedTest(name = "Tested {index} tasks 'insertWordAfterSubstring'")
+    @ParameterizedTest(name = "Tested {index} tasks {displayName}")
     @CsvSource( value ={
             "'':'':a:a",
             "     :'':a:a",

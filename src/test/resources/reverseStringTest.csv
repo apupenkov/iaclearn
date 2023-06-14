@@ -1,0 +1,7 @@
+input;expected
+NULL;""
+"";""
+"Hello world!";"!dlrow olleH"
+"Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vestibulum condimentum lacinia. Quisque hendrerit posuere odio, id efficitur odio.";".oido ruticiffe di ,oido ereusop tirerdneh euqsiuQ .ainical mutnemidnoc mulubitsev nI .tile gnicsipida rutetcesnoc ,tema tis rolod muspi meroL"
+"EeEeeeeeeeeeEeEe";"eEeEeeeeeeeeeEeE"
+"Предварительные выводы неутешительны: граница обучения кадров предопределяет высокую востребованность благоприятных перспектив.";".виткепсреп хынтяирпогалб ьтсоннавобертсов юукосыв теяледерподерп вордак яинечубо ацинарг :ыньлетишетуен ыдовыв еыньлетиравдерП"

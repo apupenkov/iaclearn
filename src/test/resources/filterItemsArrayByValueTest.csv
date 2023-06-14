@@ -1,0 +1,4 @@
+input;size;expected
+"";-15;""
+Hello, wordl, my, name, Abramadirados;5;Abramadirados
+Hello, world, my, name, Abramadirados;2;Hello, world, name, Abramadirados

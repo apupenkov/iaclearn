@@ -1,14 +1,13 @@
 import book.chapter7.tasks.FunctionSolver;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.converter.ConvertWith;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import strings.StringTaskSolver;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class CountTest {
+public class CountTests {
 
-    @ParameterizedTest(name = "Tested {index} tasks 'countPunctuationMarksTest'")
+    @ParameterizedTest(name = "Tested {index} tasks {displayName}")
     @CsvFileSource(
             resources = "/countPunctuationMarksTest.csv",
             delimiter = '|',
@@ -21,7 +20,7 @@ public class CountTest {
         assertEquals(expected, StringTaskSolver.countPunctuationMarks(input));
     }
 
-    @ParameterizedTest(name = "Tested {index} tasks 'sumOfDigitsTest'")
+    @ParameterizedTest(name = "Tested {index} tasks {displayName}")
     @CsvFileSource(
             resources = "/sumOfDigitsTest.csv",
             delimiter = ';',
@@ -34,7 +33,7 @@ public class CountTest {
         assertEquals(expected, StringTaskSolver.sumOfDigits(input));
     }
 
-    @ParameterizedTest(name = "Tested {index} tasks 'countWordOccurrencesTest'")
+    @ParameterizedTest(name = "Tested {index} tasks {displayName}")
     @CsvFileSource(
             resources = "/countWordOccurrencesTest.csv",
             delimiter = ';',
@@ -48,7 +47,7 @@ public class CountTest {
         assertEquals(expected, StringTaskSolver.countWordOccurrences(input, word));
     }
 
-    @ParameterizedTest(name = "Tested {index} tasks 'countWordsStartingWithUppercaseTest'")
+    @ParameterizedTest(name = "Tested {index} tasks {displayName}")
     @CsvFileSource(
             resources = "/countWordsStartingWithUppercaseTest.csv",
             delimiter = ';',
@@ -61,7 +60,7 @@ public class CountTest {
         assertEquals(expected, StringTaskSolver.countWordsStartingWithUppercase(input));
     }
 
-    @ParameterizedTest(name = "Tested {index} tasks 'countWordOccurrencesInTextsTest'")
+    @ParameterizedTest(name = "Tested {index} tasks {displayName}")
     @CsvFileSource(
             resources = "/countWordOccurrencesInTextsTest.csv",
             delimiter = ';',
@@ -75,7 +74,7 @@ public class CountTest {
         assertEquals(expected, StringTaskSolver.countWordOccurrencesInTexts(input, word));
     }
 
-    @ParameterizedTest(name = "Tested {index} tasks 'countOccurrencesTest'")
+    @ParameterizedTest(name = "Tested {index} tasks {displayName}")
     @CsvFileSource(
             resources = "/countOccurrencesTest.csv",
             delimiter = ';',

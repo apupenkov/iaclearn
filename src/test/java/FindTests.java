@@ -4,7 +4,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.converter.ConvertWith;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import strings.StringTaskSolver;
-import strings.TaskSolver;
 
 import java.util.*;
 import java.util.stream.Stream;
@@ -12,7 +11,7 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-public class FindTest {
+public class FindTests {
 
     @Test
     public void countWordOccurrencesEmptyStringTest() {
@@ -146,7 +145,7 @@ public class FindTest {
         assertEquals(actual, expected);
     }
 
-    @ParameterizedTest(name = "Tested {index} tasks 'compareSentenceVowelConsonantFrequencyTest'")
+    @ParameterizedTest(name = "Tested {index} tasks {displayName}")
     @CsvFileSource(
             resources = "/compareSentenceVowelConsonantFrequencyTest.csv",
             delimiter = ';',
@@ -159,7 +158,7 @@ public class FindTest {
         assertArrayEquals(expected, StringTaskSolver.compareSentenceVowelConsonantFrequency(input));
     }
 
-    @ParameterizedTest(name = "Tested {index} tasks 'countWordsStartEndWithVowelTest'")
+    @ParameterizedTest(name = "Tested {index} tasks {displayName}")
     @CsvFileSource(
             resources = "/countWordsStartEndWithVowelTest.csv",
             delimiter = ';',
@@ -172,7 +171,7 @@ public class FindTest {
         assertEquals(expected, StringTaskSolver.countWordsStartEndWithVowel(input));
     }
 
-    @ParameterizedTest(name = "Tested {index} tasks 'countWordsStartEndWithVowelTest'")
+    @ParameterizedTest(name = "Tested {index} tasks {displayName}")
     @CsvFileSource(
             resources = "/wordsWithSameFirstAndLastCharacterTest.csv",
             delimiter = ';',
@@ -185,7 +184,7 @@ public class FindTest {
         assertArrayEquals(expected, StringTaskSolver.wordsWithSameFirstAndLastCharacter(input));
     }
 
-    @ParameterizedTest(name = "Tested {index} tasks 'countWordsStartEndWithVowelTest'")
+    @ParameterizedTest(name = "Tested {index} tasks {displayName}")
     @CsvFileSource(
             resources = "/findMinMaxWordsTest.csv",
             delimiter = ';',
@@ -198,7 +197,7 @@ public class FindTest {
         assertArrayEquals(expected, StringTaskSolver.findMinMaxWords(input));
     }
 
-    @ParameterizedTest(name = "Tested {index} tasks 'countWordsStartEndWithVowelTest'")
+    @ParameterizedTest(name = "Tested {index} tasks {displayName}")
     @CsvFileSource(
             resources = "/telegramPaymentReceiptTest.csv",
             delimiter = ';',
@@ -213,7 +212,7 @@ public class FindTest {
         }
     }
 
-    @ParameterizedTest(name = "Tested {index} tasks 'countWordsStartEndWithVowelTest'")
+    @ParameterizedTest(name = "Tested {index} tasks {displayName}")
     @CsvFileSource(
             resources = "/findCommonLettersTest.csv",
             delimiter = ';',
@@ -227,7 +226,7 @@ public class FindTest {
         assertArrayEquals(exp, StringTaskSolver.findCommonLetters(input));
     }
 
-    @ParameterizedTest(name = "Tested {index} tasks 'findLongestNonLetterSubstringTest'")
+    @ParameterizedTest(name = "Tested {index} tasks {displayName}")
     @CsvFileSource(
             resources = "/findLongestNonLetterSubstringTest.csv",
             delimiter = ';',
@@ -238,7 +237,7 @@ public class FindTest {
         assertEquals(expected, StringTaskSolver.findLongestNonLetterSubstring(input));
     }
 
-    @ParameterizedTest(name = "Tested {index} tasks 'findConsonantsTest'")
+    @ParameterizedTest(name = "Tested {index} tasks {displayName}")
     @CsvFileSource(
             resources = "/findConsonantsTest.csv",
             delimiter = ';',
@@ -255,7 +254,7 @@ public class FindTest {
         assertEquals(expectedSet, actualConsonants);
     }
 
-    @ParameterizedTest(name = "Tested {index} tasks 'findOddWordTest'")
+    @ParameterizedTest(name = "Tested {index} tasks {displayName}")
     @CsvFileSource(
             resources = "/findOddWordTest.csv",
             delimiter = ';',
@@ -266,7 +265,7 @@ public class FindTest {
         assertEquals(expected, StringTaskSolver.findOddWord(input));
     }
 
-    @ParameterizedTest(name = "Tested {index} tasks 'getSubstringTest'")
+    @ParameterizedTest(name = "Tested {index} tasks {displayName}")
     @CsvFileSource(
             resources = "/getSubstringTest.csv",
             delimiter = ';',
@@ -277,7 +276,7 @@ public class FindTest {
         assertEquals(expected, StringTaskSolver.getSubstring(input, n, m));
     }
 
-    @ParameterizedTest(name = "Tested {index} tasks 'generatePrimesTest'")
+    @ParameterizedTest(name = "Tested {index} tasks {displayName}")
     @CsvFileSource(
             resources = "/generatePrimesTest.csv",
             delimiter = ';',
@@ -292,4 +291,20 @@ public class FindTest {
 
         assertArrayEquals(ex, actual);
     }
+
+    @ParameterizedTest(name = "Tested {index} tasks {displayName}")
+    @CsvFileSource(
+            resources = "/startWithGivenLetterTest.csv",
+            delimiter = ';',
+            nullValues = {"NULL" },
+            numLinesToSkip = 1
+    )
+    void startWithGivenLetterTest(
+            @ConvertWith(StringArrayConverter.class) String[] input,
+            char letter,
+            @ConvertWith(StringArrayConverter.class) String[] expected) {
+        assertArrayEquals(expected, FunctionSolver.startWithGivenLetter(input, letter));
+    }
+
+
 }
