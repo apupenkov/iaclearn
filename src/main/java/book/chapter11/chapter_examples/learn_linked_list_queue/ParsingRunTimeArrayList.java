@@ -1,4 +1,4 @@
-package book.chapter11.chapter_examples.learn_linked_list;
+package book.chapter11.chapter_examples.learn_linked_list_queue;
 
 import java.util.ArrayList;
 import java.util.List;
