@@ -1,5 +1,6 @@
 package book.chapter11;
 
+import java.io.File;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
@@ -85,19 +86,222 @@ public class CollectionSolver {
     }
 
     /*
+    * [3]
+    * Создать список из элементов каталога и его подкаталогов.
+    * */
+
+    public static void createListDirectoryElements(String path, List<String> fileList) {
+
+        File directory = new File(path);
+
+        File[] files = directory.listFiles();
+
+        if (files != null) {
+            for (File file : files) {
+                if (file.isDirectory()) {
+                    createListDirectoryElements(file.getAbsolutePath(), fileList);
+                }
+                else {
+                    fileList.add(file.getPath());
+                }
+            }
+        }
+    }
+
+    /*
+     * [5]
+     * Задать два стека, поменять информацию местами.
+     * */
+    public static void swapStack(Stack<Object> original, Stack<Object> copy) {
+        while (!original.isEmpty()) {
+            copy.push(original.pop());
+        }
+    }
+
+    public static <T> void swapTwoStack(Stack<T> stack1, Stack<T> stack2) {
+        if (stack1.isEmpty() && stack2.isEmpty()) return;
+        Stack<T> largestStack;
+        Stack<T> smallerStack;
+        Stack<T> tempStack = new Stack<>();
+
+        if (stack1.size() > stack2.size()) {
+            largestStack = stack1;
+            smallerStack = stack2;
+        } else {
+            largestStack = stack2;
+            smallerStack = stack1;
+        }
+
+        while (!largestStack.isEmpty()) {
+            tempStack.push(largestStack.pop());
+        }
+
+        while (!smallerStack.isEmpty()) {
+            largestStack.push(smallerStack.pop());
+        }
+
+        while (!tempStack.isEmpty()) {
+            smallerStack.push(tempStack.pop());
+        }
+    }
+
+
+    /*
+    * [6]
+    * Определить множество на основе множества целых чисел. Создать методы
+    * для определения пересечения и объединения множеств.
+    * */
+    public static <T> Set<T> findIntersection(Set<T> set1, Set<T> set2) {
+        Set<T> intersection = new HashSet<>(set1);
+        intersection.retainAll(set2);
+        return intersection;
+    }
+
+    public static <T> Set<T> findUnion(Set<T> set1, Set<T> set2) {
+        Set<T> union = new HashSet<>(set1);
+        union.addAll(set2);
+        return union;
+    }
+
+
+    /*
+    * [7]
+    * Списки, стеки или очереди T(1..n) и U(1..n) содержат результаты n-измерений тока и напряжения на неизвестном
+    * сопротивлении R. Найти приближенное число R методом наименьших квадратов.
+    * */
+    public static double findResistance(List<Double> currentList, List<Double> voltageList) {
+        int n = currentList.size();
+
+        if (n != voltageList.size()) {
+            throw new IllegalArgumentException("Размеры списков должны быть одинаковыми");
+        }
+
+        double tMean = calculateMean(currentList);
+        double uMean = calculateMean(voltageList);
+
+        double sumProducts = 0.0;
+        double sumSquaredDifferencesT = 0.0;
+        for (int i = 0; i < n; i++) {
+            double dT = currentList.get(i) - tMean;
+            double dU = voltageList.get(i) - uMean;
+
+            sumProducts += dT * dU;
+            sumSquaredDifferencesT += dT * dT;
+        }
+
+        return sumProducts / sumSquaredDifferencesT;
+    }
+
+    public static double calculateMean(List<Double> values) {
+        double sum = 0.0;
+        for (double value : values) {
+            sum += value;
+        }
+        return sum / values.size();
+    }
+
+
+    /*
+    * [8]
+    * С использованием множества выполнить попарное суммирование произвольного конечного ряда чисел по следующим правилам:
+    * на первом этапе суммируются попарно рядом стоящие числа, на втором этапе суммируются результаты первого этапа и т.д.
+    * до тех пор, пока не останется одно число.
+    * */
+
+    /*
+    * [9]
+    * Сложить два многочлена заданной степени, если коэффициенты многочленов хранятся в объекте HashMap.
+    * */
+
+    /*
+    * [10]
+    * Умножить два многочлена заданной степени, если коэффициенты многочленов хранятся в различных списках
+    * */
+
+    /*
     * Main method for tests methods
     * */
     public static void main(String[] args) {
+        // task 1
         String[] hello = {"Hello world!!!", "KLJLKJSDF", "qwer", "aboba"};
         Arrays.stream(reverseArray(hello)).forEach(System.out::println);
 
+        // task 2
         System.out.println(reverseIntNumber(12345));
 
+        // task 4
         String[] poem = {"В небе синем тихо горят звезды", "Белеет парус одинокий", "Тихо, тихо ползи, снежинка",
                 "Падал снег на весь квартал", "А",
                 "ААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААА"};
         System.out.println(Arrays.toString(sortByLength(poem)));
 
+        // task 16
         stringsWithKeyMoreFive();
+
+        // task 3
+//        List<String> fileList = new ArrayList<>();
+//        createListDirectoryElements("src", fileList);
+
+//        fileList.forEach(System.out::println);
+
+        // task 5
+        Stack<String> stringStack1 = new Stack<>();
+        Stack<String> stringStack2 = new Stack<>();
+
+        stringStack1.push("Hello");
+        stringStack1.push("My");
+        stringStack1.push("Dear");
+        stringStack1.push("Friend");
+
+
+        stringStack2.push("Lorem");
+        stringStack2.push("Ismus");
+        stringStack2.push("Diem");
+        stringStack2.push("Label");
+
+        stringStack1.forEach(System.out::println);
+        System.out.println("_____");
+        stringStack2.forEach(System.out::println);
+        System.out.println("+++++");
+
+        swapTwoStack(stringStack1, stringStack2);
+
+        stringStack1.forEach(System.out::println);
+        System.out.println("_____");
+        stringStack2.forEach(System.out::println);
+        System.out.println("+++++");
+
+//        Stack<Integer> stack1 = new Stack<>();
+//        Stack<Integer> stack2 = new Stack<>();
+
+//        for (int i = 0; i < 1_000_000; i++) {
+//            stack1.push(i);
+//            stack2.push(1_000_000 - i);
+//        }
+
+//        long startTime = System.currentTimeMillis();
+//
+//        swapTwoStack(stack1, stack2);
+//
+//        long endTime = System.currentTimeMillis();
+//        long executionTime = endTime - startTime;
+//        System.out.println("Время выполнения: " + executionTime + " миллисекунд");
+
+        // task 6
+        Set<Integer> set1 = new HashSet<>();
+        set1.add(1);
+        set1.add(2);
+        set1.add(3);
+
+        Set<Integer> set2 = new HashSet<>();
+        set2.add(3);
+        set2.add(4);
+        set2.add(5);
+
+        Set<Integer> intersection = findIntersection(set1, set2);
+        System.out.println("Пересечение: " + intersection);
+
+        Set<Integer> union = findUnion(set1, set2);
+        System.out.println("Объединение: " + union);
     }
 }
