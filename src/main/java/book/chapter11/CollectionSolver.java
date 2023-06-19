@@ -202,21 +202,47 @@ public class CollectionSolver {
 
 
     /*
-    * [8]
-    * С использованием множества выполнить попарное суммирование произвольного конечного ряда чисел по следующим правилам:
-    * на первом этапе суммируются попарно рядом стоящие числа, на втором этапе суммируются результаты первого этапа и т.д.
-    * до тех пор, пока не останется одно число.
-    * */
+     * [8]
+     * С использованием множества выполнить попарное суммирование произвольного конечного ряда чисел по следующим правилам:
+     * на первом этапе суммируются попарно рядом стоящие числа, на втором этапе суммируются результаты первого этапа и т.д.
+     * до тех пор, пока не останется одно число.
+     * */
+    public static Set<Integer> pairwiseSum(Set<Integer> set) {
+        if (set.size() < 2) {
+            return set;
+        }
+        Set<Integer> pairs = new LinkedHashSet<>();
+        for (Iterator<Integer> iterator = set.iterator(); iterator.hasNext(); ) {
+            Integer temp = iterator.next();
+            if (iterator.hasNext()) {
+                temp += iterator.next();
+            }
+            pairs.add(temp);
+        }
+        return pairwiseSum(pairs);
+    }
 
     /*
-    * [9]
-    * Сложить два многочлена заданной степени, если коэффициенты многочленов хранятся в объекте HashMap.
-    * */
+     * [9]
+     * Сложить два многочлена заданной степени, если коэффициенты многочленов хранятся в объекте HashMap.
+     * */
+//    public static Map<Integer, Integer> addPolynomials(Map<Integer, Integer> polynomial1, Map<Integer, Integer> polynomial2) {
+//
+//    }
 
     /*
     * [10]
     * Умножить два многочлена заданной степени, если коэффициенты многочленов хранятся в различных списках
     * */
+
+    /*
+     * [11]
+     * Не используя вспомогательных объектов, переставить отрицательные элементы данного списка в конец,
+     * а положительные — в начало списка.
+     * */
+    public static void sortBySign(List<Integer> list) {
+        Collections.sort(list, Collections.reverseOrder());
+    }
 
     /*
     * Main method for tests methods
@@ -303,5 +329,34 @@ public class CollectionSolver {
 
         Set<Integer> union = findUnion(set1, set2);
         System.out.println("Объединение: " + union);
+
+        // task 7
+        List<Double> currentList = List.of( 15.5, 12.2, 8.85, 12.1 );
+        List<Double> voltageList = List.of( 97.12, 52.5, 32.2, 56. );
+
+        double resistance = findResistance(currentList, voltageList);
+        System.out.println("Приближенное значение сопротивления R: " + resistance);
+
+        // task 8
+        System.out.println("Сумма: " + pairwiseSum(Set.of(1, 2, 3, 4, 5, 6, 7, 8)));
+
+        // task 9
+//        Map<Integer, Integer> polynomial1 = new HashMap<>();
+//        polynomial1.put(2, 3);
+//        polynomial1.put(1, 2);
+//        polynomial1.put(0, 1);
+//
+//        Map<Integer, Integer> polynomial2 = new HashMap<>();
+//        polynomial2.put(2, 1);
+//        polynomial2.put(1, -2);
+//        polynomial2.put(0, 3);
+//
+//        Map<Integer, Integer> sum = addPolynomials(polynomial1, polynomial2);
+//        System.out.println("Сложенный многочлен: " + sum);
+
+        // task 11
+        List<Integer> list = Arrays.asList(1, 5, 3, -3, 2, -5, -63, 0, 5, 5);
+        sortBySign(list);
+        System.out.println(list);
     }
 }
