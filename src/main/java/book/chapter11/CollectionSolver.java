@@ -6,11 +6,18 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 public class CollectionSolver {
+
+    /* Solve tasks from Variant A
+    * */
+
     /*
      * [1]
      * Ввести строки из файла, записать в список. Вывести строки в файл в обратном порядке.
      * */
     public static String[] reverseArray(String[] array) {
+        if (array == null) {
+            throw new IllegalArgumentException("Массив должен быть заполнен");
+        }
         List<String> list = Arrays.asList(array);
         Collections.reverse(list);
         return list.toArray(String[]::new);
@@ -82,7 +89,6 @@ public class CollectionSolver {
                 break;
             }
         }
-
     }
 
     /*
@@ -226,8 +232,16 @@ public class CollectionSolver {
      * [9]
      * Сложить два многочлена заданной степени, если коэффициенты многочленов хранятся в объекте HashMap.
      * */
-//    public static Map<Integer, Integer> addPolynomials(Map<Integer, Integer> polynomial1, Map<Integer, Integer> polynomial2) {
+//    public static Map<Integer, Map<Integer, Integer>> addPolynomials(Map<Integer, Map<Integer, Integer>> polinom1, Map<Integer, Map<Integer, Integer>> polinom2) {
+////        if (polinom1.size() != polinom2.size())
+////            throw new IllegalArgumentException("Две коллекции должны быть одного размера.");
 //
+//        Map<Integer, Map<Integer, Integer>> sum = new HashMap<>();
+//        for (Map.Entry<Integer, Map<Integer, Integer>> entry : polinom1.entrySet()) {
+//            sum.put(entry.getKey(), entry.getValue());
+//        }
+//
+//        return sum;
 //    }
 
     /*
@@ -245,24 +259,166 @@ public class CollectionSolver {
     }
 
     /*
+     * [13]
+     * Задана строка, состоящая из символов «(», «)», «[», «]», «{», «}». Проверить правильность расстановки скобок. Использовать стек.
+     * */
+    public static boolean validateBrackets(String input) {
+        Stack<Character> stack = new Stack<>();
+
+        for (char ch : input.toCharArray()) {
+            if (isOpenBracket(ch)) {
+                stack.push(ch);
+            } else if (isClosedBracket(ch)) {
+                if (stack.isEmpty() || !isMatchingBracket(stack.pop(), ch)) {
+                    return false;
+                }
+            }
+        }
+
+        return stack.isEmpty();
+    }
+
+    public static boolean isOpenBracket(char ch) {
+        return ch == '(' || ch == '[' || ch == '{';
+    }
+
+    public static boolean isClosedBracket(char ch) {
+        return ch == ')' || ch == ']' || ch == '}';
+    }
+
+    public static boolean isMatchingBracket(char openBracket, char closedBracket) {
+        return (openBracket == '(' && closedBracket == ')')
+                || (openBracket == '[' && closedBracket == ']')
+                || (openBracket == '{' && closedBracket == '}');
+    }
+
+    /*
+    * [14]
+    * Задан файл с текстом на английском языке. Выделить все различные слова. Слова, отличающиеся только регистром букв,
+    * считать одинаковыми. Использовать класс HashSet.
+    * */
+    public static Set<String> getUniqueWords(String[] array) {
+        Set<String> uniqueWords = new HashSet<>(Arrays.stream(array).toList());
+
+        return uniqueWords;
+    }
+
+
+
+    /* Solve tasks from Variant B
+    * */
+
+    /*
+    * [1]
+    * В кругу стоят N человек, пронумерованных от 1 до N. При ведении счета по кругу вычеркивается каждый второй человек,
+    * пока не останется один. Составить две программы, моделирующие процесс. Одна из программ должна использовать класс
+    * ArrayList, а вторая — LinkedList. Какая из двух программ работает быстрее? Почему?
+    * */
+
+    public static int getLastPersonArrayList(int n) {
+        ArrayList<Integer> circle = new ArrayList<>();
+
+        for (int i = 1; i <= n; i++) {
+            circle.add(i);
+        }
+
+        int currentIndex = 0;
+        while (circle.size() > 1) {
+            currentIndex = (currentIndex + 1) % circle.size();
+            circle.remove(currentIndex);
+        }
+
+        return circle.get(0);
+    }
+
+    public static int getLastPersonLinkedList(int n) {
+        LinkedList<Integer> circle = new LinkedList<>();
+
+        for (int i = 1; i <= n; i++) {
+            circle.add(i);
+        }
+
+        int currentIndex = 0;
+        while (circle.size() > 1) {
+            currentIndex = (currentIndex + 1) % circle.size();
+            circle.remove(currentIndex);
+        }
+
+        return circle.get(0);
+    }
+
+    /*
+    * [2]
+    * Задан список целых чисел и некоторое число X. Не используя вспомогательных объектов и методов сортировки и не
+    * изменяя размера списка, переставить элементы списка так, чтобы сначала шли числа, не превосходящие X, а затем
+    * числа, больше X.
+    * */
+
+    public static void rearrange(List<Integer> list, int x) {
+        int left = 0;
+        int right = list.size() - 1;
+
+        while (left < right) {
+            if (list.get(left) > x && list.get(right) <= x) {
+                int temp = list.get(left);
+                list.set(left, list.get(right));
+                list.set(right, temp);
+            }
+
+            if (list.get(left) <= x) {
+                left++;
+            }
+
+            if (list.get(right) > x) {
+                right--;
+            }
+        }
+    }
+
+
+    /*
     * Main method for tests methods
     * */
     public static void main(String[] args) {
+
+//        int n = 10; // Количество людей в кругу
+//        int lastPersonA = getLastPersonArrayList(n);
+//        System.out.println("Последний оставшийся человек: " + lastPersonA);
+//        int lastPersonL = getLastPersonLinkedList(n);
+//        System.out.println("Последний оставшийся человек: " + lastPersonL);
+
+        List<Integer> list = new ArrayList<>();
+        list.add(15);
+        list.add(5);
+        list.add(10);
+        list.add(3);
+        list.add(8);
+        list.add(2);
+        list.add(7);
+        list.add(9);
+
+        int x = 10;
+
+        System.out.println("Исходный список: " + list);
+        rearrange(list, x);
+        System.out.println("Переставленный список: " + list);
+
+
         // task 1
-        String[] hello = {"Hello world!!!", "KLJLKJSDF", "qwer", "aboba"};
-        Arrays.stream(reverseArray(hello)).forEach(System.out::println);
+//        String[] hello = {"Hello world!!!", "KLJLKJSDF", "qwer", "aboba"};
+//        Arrays.stream(reverseArray(hello)).forEach(System.out::println);
 
         // task 2
-        System.out.println(reverseIntNumber(12345));
+//        System.out.println(reverseIntNumber(12345));
 
         // task 4
-        String[] poem = {"В небе синем тихо горят звезды", "Белеет парус одинокий", "Тихо, тихо ползи, снежинка",
-                "Падал снег на весь квартал", "А",
-                "ААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААА"};
-        System.out.println(Arrays.toString(sortByLength(poem)));
+//        String[] poem = {"В небе синем тихо горят звезды", "Белеет парус одинокий", "Тихо, тихо ползи, снежинка",
+//                "Падал снег на весь квартал", "А",
+//                "ААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААА"};
+//        System.out.println(Arrays.toString(sortByLength(poem)));
 
         // task 16
-        stringsWithKeyMoreFive();
+//        stringsWithKeyMoreFive();
 
         // task 3
 //        List<String> fileList = new ArrayList<>();
@@ -271,31 +427,31 @@ public class CollectionSolver {
 //        fileList.forEach(System.out::println);
 
         // task 5
-        Stack<String> stringStack1 = new Stack<>();
-        Stack<String> stringStack2 = new Stack<>();
-
-        stringStack1.push("Hello");
-        stringStack1.push("My");
-        stringStack1.push("Dear");
-        stringStack1.push("Friend");
-
-
-        stringStack2.push("Lorem");
-        stringStack2.push("Ismus");
-        stringStack2.push("Diem");
-        stringStack2.push("Label");
-
-        stringStack1.forEach(System.out::println);
-        System.out.println("_____");
-        stringStack2.forEach(System.out::println);
-        System.out.println("+++++");
-
-        swapTwoStack(stringStack1, stringStack2);
-
-        stringStack1.forEach(System.out::println);
-        System.out.println("_____");
-        stringStack2.forEach(System.out::println);
-        System.out.println("+++++");
+//        Stack<String> stringStack1 = new Stack<>();
+//        Stack<String> stringStack2 = new Stack<>();
+//
+//        stringStack1.push("Hello");
+//        stringStack1.push("My");
+//        stringStack1.push("Dear");
+//        stringStack1.push("Friend");
+//
+//
+//        stringStack2.push("Lorem");
+//        stringStack2.push("Ismus");
+//        stringStack2.push("Diem");
+//        stringStack2.push("Label");
+//
+//        stringStack1.forEach(System.out::println);
+//        System.out.println("_____");
+//        stringStack2.forEach(System.out::println);
+//        System.out.println("+++++");
+//
+//        swapTwoStack(stringStack1, stringStack2);
+//
+//        stringStack1.forEach(System.out::println);
+//        System.out.println("_____");
+//        stringStack2.forEach(System.out::println);
+//        System.out.println("+++++");
 
 //        Stack<Integer> stack1 = new Stack<>();
 //        Stack<Integer> stack2 = new Stack<>();
@@ -314,31 +470,31 @@ public class CollectionSolver {
 //        System.out.println("Время выполнения: " + executionTime + " миллисекунд");
 
         // task 6
-        Set<Integer> set1 = new HashSet<>();
-        set1.add(1);
-        set1.add(2);
-        set1.add(3);
-
-        Set<Integer> set2 = new HashSet<>();
-        set2.add(3);
-        set2.add(4);
-        set2.add(5);
-
-        Set<Integer> intersection = findIntersection(set1, set2);
-        System.out.println("Пересечение: " + intersection);
-
-        Set<Integer> union = findUnion(set1, set2);
-        System.out.println("Объединение: " + union);
-
-        // task 7
-        List<Double> currentList = List.of( 15.5, 12.2, 8.85, 12.1 );
-        List<Double> voltageList = List.of( 97.12, 52.5, 32.2, 56. );
-
-        double resistance = findResistance(currentList, voltageList);
-        System.out.println("Приближенное значение сопротивления R: " + resistance);
-
-        // task 8
-        System.out.println("Сумма: " + pairwiseSum(Set.of(1, 2, 3, 4, 5, 6, 7, 8)));
+//        Set<Integer> set1 = new HashSet<>();
+//        set1.add(1);
+//        set1.add(2);
+//        set1.add(3);
+//
+//        Set<Integer> set2 = new HashSet<>();
+//        set2.add(3);
+//        set2.add(4);
+//        set2.add(5);
+//
+//        Set<Integer> intersection = findIntersection(set1, set2);
+//        System.out.println("Пересечение: " + intersection);
+//
+//        Set<Integer> union = findUnion(set1, set2);
+//        System.out.println("Объединение: " + union);
+//
+//        // task 7
+//        List<Double> currentList = List.of( 15.5, 12.2, 8.85, 12.1 );
+//        List<Double> voltageList = List.of( 97.12, 52.5, 32.2, 56. );
+//
+//        double resistance = findResistance(currentList, voltageList);
+//        System.out.println("Приближенное значение сопротивления R: " + resistance);
+//
+//        // task 8
+//        System.out.println("Сумма: " + pairwiseSum(Set.of(1, 2, 3, 4, 5, 6, 7, 8)));
 
         // task 9
 //        Map<Integer, Integer> polynomial1 = new HashMap<>();
@@ -355,8 +511,8 @@ public class CollectionSolver {
 //        System.out.println("Сложенный многочлен: " + sum);
 
         // task 11
-        List<Integer> list = Arrays.asList(1, 5, 3, -3, 2, -5, -63, 0, 5, 5);
-        sortBySign(list);
-        System.out.println(list);
+//        List<Integer> list = Arrays.asList(1, 5, 3, -3, 2, -5, -63, 0, 5, 5);
+//        sortBySign(list);
+//        System.out.println(list);
     }
 }
