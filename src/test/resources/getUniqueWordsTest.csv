@@ -1,0 +1,5 @@
+input;expected
+"";""
+Hello, world;world, hello
+Hello, hello, world, my, friend, my;world, friend, hello, my
+Hello, HELLO, hello, HeLlO; hello

@@ -1,6 +1,7 @@
 package book.chapter11;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
@@ -28,15 +29,18 @@ public class CollectionSolver {
      * Ввести число, занести его цифры в стек. Вывести число, у которого цифры
      * идут в обратном порядке
      * */
-    public static int reverseIntNumber(int number) {
-        Stack<Integer> stack = new Stack<>();
+    public static int reverseIntNumber(long number) {
+        if (number == 0) return 0;
+        Stack<Long> stack = new Stack<>();
+        StringBuilder sb = new StringBuilder();
+        if (number < 0) sb.append("-");
         while (number != 0) {
-            int digit = number % 10;
-            stack.push(digit);
+            long digit = number % 10;
+            stack.push(Math.abs(digit));
             number /= 10;
         }
-        StringBuilder sb = new StringBuilder();
-        stack.stream().forEach(i -> sb.append(i.toString()));
+
+        stack.forEach(i -> sb.append(i.toString()));
 
         return Integer.parseInt(sb.toString());
     }
@@ -47,6 +51,7 @@ public class CollectionSolver {
      * возрастанию длин строк.
      * */
     public static String[] sortByLength(String[] input) {
+        if (input == null) throw new IllegalArgumentException("Передайте не пустой массив");
         List<String> poems = new ArrayList<>(List.of(input));
         poems.sort(Comparator.comparingInt(String::length));
         return poems.toArray(String[]::new);
@@ -96,7 +101,7 @@ public class CollectionSolver {
     * Создать список из элементов каталога и его подкаталогов.
     * */
 
-    public static void createListDirectoryElements(String path, List<String> fileList) {
+    public static void createListDirectoryElements(String path, List<String> fileList) throws IOException {
 
         File directory = new File(path);
 
@@ -105,7 +110,7 @@ public class CollectionSolver {
         if (files != null) {
             for (File file : files) {
                 if (file.isDirectory()) {
-                    createListDirectoryElements(file.getAbsolutePath(), fileList);
+                    createListDirectoryElements(file.getCanonicalPath(), fileList);
                 }
                 else {
                     fileList.add(file.getPath());
@@ -119,9 +124,7 @@ public class CollectionSolver {
      * Задать два стека, поменять информацию местами.
      * */
     public static void swapStack(Stack<Object> original, Stack<Object> copy) {
-        while (!original.isEmpty()) {
-            copy.push(original.pop());
-        }
+        copy = (Stack<Object>) original.clone();
     }
 
     public static <T> void swapTwoStack(Stack<T> stack1, Stack<T> stack2) {
@@ -233,15 +236,15 @@ public class CollectionSolver {
      * Сложить два многочлена заданной степени, если коэффициенты многочленов хранятся в объекте HashMap.
      * */
 //    public static Map<Integer, Map<Integer, Integer>> addPolynomials(Map<Integer, Map<Integer, Integer>> polinom1, Map<Integer, Map<Integer, Integer>> polinom2) {
-////        if (polinom1.size() != polinom2.size())
-////            throw new IllegalArgumentException("Две коллекции должны быть одного размера.");
-//
-//        Map<Integer, Map<Integer, Integer>> sum = new HashMap<>();
-//        for (Map.Entry<Integer, Map<Integer, Integer>> entry : polinom1.entrySet()) {
-//            sum.put(entry.getKey(), entry.getValue());
-//        }
-//
-//        return sum;
+//////        if (polinom1.size() != polinom2.size())
+//////            throw new IllegalArgumentException("Две коллекции должны быть одного размера.");
+////
+////        Map<Integer, Map<Integer, Integer>> sum = new HashMap<>();
+////        for (Map.Entry<Integer, Map<Integer, Integer>> entry : polinom1.entrySet()) {
+////            sum.put(entry.getKey(), entry.getValue());
+////        }
+////
+////        return sum;
 //    }
 
     /*
@@ -262,6 +265,7 @@ public class CollectionSolver {
      * [13]
      * Задана строка, состоящая из символов «(», «)», «[», «]», «{», «}». Проверить правильность расстановки скобок. Использовать стек.
      * */
+
     public static boolean validateBrackets(String input) {
         Stack<Character> stack = new Stack<>();
 
@@ -298,12 +302,10 @@ public class CollectionSolver {
     * считать одинаковыми. Использовать класс HashSet.
     * */
     public static Set<String> getUniqueWords(String[] array) {
-        Set<String> uniqueWords = new HashSet<>(Arrays.stream(array).toList());
-
-        return uniqueWords;
+        if (array == null) throw new IllegalArgumentException();
+//        Arrays.stream(array).forEach(String::toLowerCase);
+        return new HashSet<>(Arrays.stream(array).map(String::toLowerCase).sorted().toList());
     }
-
-
 
     /* Solve tasks from Variant B
     * */
@@ -314,9 +316,7 @@ public class CollectionSolver {
     * пока не останется один. Составить две программы, моделирующие процесс. Одна из программ должна использовать класс
     * ArrayList, а вторая — LinkedList. Какая из двух программ работает быстрее? Почему?
     * */
-
-    public static int getLastPersonArrayList(int n) {
-        ArrayList<Integer> circle = new ArrayList<>();
+    public static int getLastPerson(List<Integer> circle, int n) {
 
         for (int i = 1; i <= n; i++) {
             circle.add(i);
@@ -331,21 +331,6 @@ public class CollectionSolver {
         return circle.get(0);
     }
 
-    public static int getLastPersonLinkedList(int n) {
-        LinkedList<Integer> circle = new LinkedList<>();
-
-        for (int i = 1; i <= n; i++) {
-            circle.add(i);
-        }
-
-        int currentIndex = 0;
-        while (circle.size() > 1) {
-            currentIndex = (currentIndex + 1) % circle.size();
-            circle.remove(currentIndex);
-        }
-
-        return circle.get(0);
-    }
 
     /*
     * [2]
@@ -375,7 +360,6 @@ public class CollectionSolver {
         }
     }
 
-
     /*
     * Main method for tests methods
     * */
@@ -387,21 +371,21 @@ public class CollectionSolver {
 //        int lastPersonL = getLastPersonLinkedList(n);
 //        System.out.println("Последний оставшийся человек: " + lastPersonL);
 
-        List<Integer> list = new ArrayList<>();
-        list.add(15);
-        list.add(5);
-        list.add(10);
-        list.add(3);
-        list.add(8);
-        list.add(2);
-        list.add(7);
-        list.add(9);
-
-        int x = 10;
-
-        System.out.println("Исходный список: " + list);
-        rearrange(list, x);
-        System.out.println("Переставленный список: " + list);
+//        List<Integer> list = new ArrayList<>();
+//        list.add(15);
+//        list.add(5);
+//        list.add(10);
+//        list.add(3);
+//        list.add(8);
+//        list.add(2);
+//        list.add(7);
+//        list.add(9);
+//
+//        int x = 10;
+//
+//        System.out.println("Исходный список: " + list);
+//        rearrange(list, x);
+//        System.out.println("Переставленный список: " + list);
 
 
         // task 1

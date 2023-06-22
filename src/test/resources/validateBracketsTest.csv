@@ -1,0 +1,9 @@
+input;expected
+"";true
+"Stack<Integer> intStack = new Stack<Integer>();";true
+"(hello)[world]{!}";true
+"(hello[world]){!!!!}";true
+"Hello my (dear{ friends)}";false
+"А море синее плачет (горькими слезами))";false
+"())";false
+"(((()))";false
