@@ -8,7 +8,8 @@ import java.util.stream.Collectors;
 
 public class CollectionSolver {
 
-    /* Solve tasks from Variant A
+    /*
+    * Solve tasks from Variant A
     * */
 
     /*
@@ -62,6 +63,29 @@ public class CollectionSolver {
      * Заполнить HashMap 10 объектами <Integer, String>. Найти строки у которых ключ > 5. Если ключ = 0, вывести строки
      * через запятую. Перемножить все ключи, где длина строки > 5.
      * */
+
+    public static Map<Integer, String> findStringByKeyMoreValue(Map<Integer, String> input, int value) {
+        return input.entrySet().stream()
+                .filter(x -> x.getKey() > value)
+                .collect(Collectors.toMap(Entry::getKey, Entry::getValue));
+    }
+
+    public static Map<Integer, String> findStringByKey(Map<Integer, String> input, int value) {
+        return input.entrySet().stream()
+                .filter(x -> x.getKey() == value)
+                .collect(Collectors.toMap(Entry::getKey, Entry::getValue));
+    }
+
+    public static List<String> getListString(Map<Integer, String> input, int value) {
+        return input.values().stream().toList();
+    }
+
+
+    public static int sumKeysByMoreValue(HashMap<Integer, String> input, int value) {
+        return input.keySet().stream().filter(x -> x > value).reduce(1, Integer::sum);
+    }
+
+
     public static void stringsWithKeyMoreFive() {
         HashMap<Integer, String> hashMap = new HashMap<>();
 
@@ -235,17 +259,17 @@ public class CollectionSolver {
      * [9]
      * Сложить два многочлена заданной степени, если коэффициенты многочленов хранятся в объекте HashMap.
      * */
-//    public static Map<Integer, Map<Integer, Integer>> addPolynomials(Map<Integer, Map<Integer, Integer>> polinom1, Map<Integer, Map<Integer, Integer>> polinom2) {
-//////        if (polinom1.size() != polinom2.size())
-//////            throw new IllegalArgumentException("Две коллекции должны быть одного размера.");
-////
-////        Map<Integer, Map<Integer, Integer>> sum = new HashMap<>();
-////        for (Map.Entry<Integer, Map<Integer, Integer>> entry : polinom1.entrySet()) {
-////            sum.put(entry.getKey(), entry.getValue());
-////        }
-////
-////        return sum;
-//    }
+    public static Map<Integer, Map<Integer, Integer>> addPolynomials(Map<Integer, Map<Integer, Integer>> polinom1, Map<Integer, Map<Integer, Integer>> polinom2) {
+        if (polinom1.size() != polinom2.size())
+            throw new IllegalArgumentException("Две коллекции должны быть одного размера.");
+
+        Map<Integer, Map<Integer, Integer>> sum = new HashMap<>();
+        for (Map.Entry<Integer, Map<Integer, Integer>> entry : polinom1.entrySet()) {
+            sum.put(entry.getKey(), entry.getValue());
+        }
+
+        return sum;
+    }
 
     /*
     * [10]
@@ -260,6 +284,13 @@ public class CollectionSolver {
     public static void sortBySign(List<Integer> list) {
         Collections.sort(list, Collections.reverseOrder());
     }
+
+    /*
+    * [12]
+    * Ввести строки из файла, записать в список ArrayList. Выполнить сортировку строк, используя метод sort() из класса Collections.
+    * */
+
+
 
     /*
      * [13]
@@ -306,6 +337,24 @@ public class CollectionSolver {
 //        Arrays.stream(array).forEach(String::toLowerCase);
         return new HashSet<>(Arrays.stream(array).map(String::toLowerCase).sorted().toList());
     }
+
+    /*
+    * [15]
+    * Задан файл с текстом на английском языке. Выделить все различные слова. Для каждого слова подсчитать частоту его
+    * встречаемости. Слова, отличающиеся регистром букв, считать различными. Использовать класс HashMap
+    * */
+
+    /*
+    * [16]
+    * Заполнить HashMap 10 объектами <Integer, String>. Найти строки у которых ключ>5. Если ключ = 0, вывести строки
+    * через запятую. Перемножить все ключи, где длина строки>5.
+    * */
+
+    /*
+    * [17]
+    * Написать функцию, которая получала бы итераторы на начало и конец отсортированного List и заданный символ.
+    * Возвращать функция должна начало и конец диапазона, строки в котором начинаются с заданного символа.
+    * */
 
     /* Solve tasks from Variant B
     * */
@@ -361,142 +410,118 @@ public class CollectionSolver {
     }
 
     /*
-    * Main method for tests methods
+    * [3]
+    * Написать программу, осуществляющую сжатие английского текста. Построить для каждого слова в тексте оптимальный
+    * префиксный код по алгоритму Хаффмена. Использовать класс PriorityQueue.
     * */
-    public static void main(String[] args) {
 
-//        int n = 10; // Количество людей в кругу
-//        int lastPersonA = getLastPersonArrayList(n);
-//        System.out.println("Последний оставшийся человек: " + lastPersonA);
-//        int lastPersonL = getLastPersonLinkedList(n);
-//        System.out.println("Последний оставшийся человек: " + lastPersonL);
+    /*
+    * [4]
+    * Реализовать класс Graph, представляющий собой неориентированный граф. В конструкторе класса передается количество
+    * вершин в графе. Методы должны поддерживать быстрое добавление и удаление ребер.
+    * */
 
-//        List<Integer> list = new ArrayList<>();
-//        list.add(15);
-//        list.add(5);
-//        list.add(10);
-//        list.add(3);
-//        list.add(8);
-//        list.add(2);
-//        list.add(7);
-//        list.add(9);
-//
-//        int x = 10;
-//
-//        System.out.println("Исходный список: " + list);
-//        rearrange(list, x);
-//        System.out.println("Переставленный список: " + list);
+    /*
+    * [5]
+    * На базе коллекций реализовать структуру хранения чисел с поддержкой следующих операций:
+    * - добавление/удаление числа;
+    * - поиск числа, наиболее близкого к заданному (т.е. модуль разницы минимален).
+    * */
+
+    /*
+    * [6]
+    * Реализовать класс, моделирующий работу N­местной автостоянки. Машина подъезжает к определенному месту и едет
+    * вправо, пока не встретится свободное место. Класс должен поддерживать методы, обслуживающие приезд и отъезд машины.
+    * */
+
+    /*
+    * [7]
+    * Во входном файле хранятся две разреженные матрицы — А и В. Построить циклически связанные списки СА и СВ,
+    * содержащие ненулевые элементы соответственно матриц А и В. Просматривая списки, вычислить: а) сумму S = A + B; б)
+    * произведение P = A × B.
+    * */
+
+    /*
+    * [8]
+    * Во входном файле хранятся наименования некоторых объектов. Построить список Z, элементы которого содержат
+    * наименования и шифры данных объектов, причем элементы списка должны быть упорядочены по возрастанию шифров. Затем
+    * «сжать» список Z, удаляя дублирующие наименования объектов.
+    * */
+
+    /*
+    * [9]
+    * Во входном файле расположены два набора положительных чисел; между наборами стоит отрицательное число. Построить
+    * два списка C1 и С2, элементы которых содержат соответственно числа 1­го и 2­го набора таким образом, чтобы
+    * внутри одного списка числа были упорядочены по возрастанию. Затем объединить списки C1 и С2 в один упорядоченный
+    * список, изменяя только значения полей ссылочного типа.
+    * */
+
+    /*
+    * [10]
+    * Во входном файле хранится информация о системе главных автодорог, связывающих г. Полоцк с другими городами
+    * Беларуси. Используя эту информацию, построить дерево, отображающее систему дорог республики, а затем, продвигаясь
+    * по дереву, определить минимальный по длине путь из г. Полоцка в другой заданный город. Предусмотреть возможность
+    * сохранения дерева в виртуальной памяти.
+    * */
+
+    /*
+    * [11]
+    * Один из способов шифрования данных, называемый «двойным шифрованием», заключается в том, что исходные данные при
+    * помощи некоторого КОЛЛЕКЦИИ И STREAM API 365 преобразования последовательно шифруются на некоторые два ключа —
+    * K1 и K2. Разработать и реализовать эффективный алгоритм, позволяющий находить ключи K1 и K2 по исходной строке и
+    * ее зашифрованному варианту. Проверить, оказался ли разработанный способ действительно эффективным, протестировав
+    * программу для случая, когда оба ключа являются 20-битными (время ее работы не должно превосходить одной минуты).
+    * */
+
+    /*
+    * [12]
+    * На плоскости задано N точек. Вывести в файл описания всех прямых, которые проходят более чем через одну точку из
+    * заданных. Для каждой прямой указать, через сколько точек она проходит. Использовать класс HashMap.
+    * */
 
 
-        // task 1
-//        String[] hello = {"Hello world!!!", "KLJLKJSDF", "qwer", "aboba"};
-//        Arrays.stream(reverseArray(hello)).forEach(System.out::println);
+    /*
+    * [13]
+    * На клетчатой бумаге нарисован круг. Вывести в файл описания всех клеток, целиком лежащих внутри круга, в порядке
+    * возрастания расстояния от клетки до центра круга. Использовать класс PriorityQueue.
+    * */
 
-        // task 2
-//        System.out.println(reverseIntNumber(12345));
+    /*
+    * [14]
+    * На плоскости задано N отрезков. Найти точку пересечения двух отрезков, имеющую минимальную абсциссу. Использовать
+    * класс TreeMap.
+    * */
 
-        // task 4
-//        String[] poem = {"В небе синем тихо горят звезды", "Белеет парус одинокий", "Тихо, тихо ползи, снежинка",
-//                "Падал снег на весь квартал", "А",
-//                "ААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААА"};
-//        System.out.println(Arrays.toString(sortByLength(poem)));
+    /*
+    * [15]
+    * На клетчатом листе бумаги закрашена часть клеток. Выделить все различные фигуры, которые образовались при этом.
+    * Фигурой считается набор закрашенных клеток, достижимых друг из друга при движении в четырех направлениях. Две
+    * фигуры являются различными, если их нельзя совместить поворотом на угол, кратный 90 градусам, и параллельным
+    * переносом. Используйте класс HashSet.
+    * */
 
-        // task 16
-//        stringsWithKeyMoreFive();
+    /*
+    * [16]
+    * Дана матрица из целых чисел. Найти в ней прямоугольную подматрицу, состоящую из максимального количества
+    * одинаковых элементов. Использовать класс ArrayDeque.
+    * */
 
-        // task 3
-//        List<String> fileList = new ArrayList<>();
-//        createListDirectoryElements("src", fileList);
+    /*
+    * [17]
+    * Реализовать структуру «черный ящик», хранящую множество чисел и имеющую внутренний счетчик K, изначально равный
+    * нулю. Структура должна поддерживать операции добавления числа в множество и возвращение K-го по минимальности
+    * числа из множества.
+    * */
 
-//        fileList.forEach(System.out::println);
+    /*
+    * [18]
+    * На прямой гоночной трассе стоит N автомобилей, для каждого из которых известны начальное положение и скорость.
+    * Определить, сколько произойдет обгонов.
+    * */
 
-        // task 5
-//        Stack<String> stringStack1 = new Stack<>();
-//        Stack<String> stringStack2 = new Stack<>();
-//
-//        stringStack1.push("Hello");
-//        stringStack1.push("My");
-//        stringStack1.push("Dear");
-//        stringStack1.push("Friend");
-//
-//
-//        stringStack2.push("Lorem");
-//        stringStack2.push("Ismus");
-//        stringStack2.push("Diem");
-//        stringStack2.push("Label");
-//
-//        stringStack1.forEach(System.out::println);
-//        System.out.println("_____");
-//        stringStack2.forEach(System.out::println);
-//        System.out.println("+++++");
-//
-//        swapTwoStack(stringStack1, stringStack2);
-//
-//        stringStack1.forEach(System.out::println);
-//        System.out.println("_____");
-//        stringStack2.forEach(System.out::println);
-//        System.out.println("+++++");
-
-//        Stack<Integer> stack1 = new Stack<>();
-//        Stack<Integer> stack2 = new Stack<>();
-
-//        for (int i = 0; i < 1_000_000; i++) {
-//            stack1.push(i);
-//            stack2.push(1_000_000 - i);
-//        }
-
-//        long startTime = System.currentTimeMillis();
-//
-//        swapTwoStack(stack1, stack2);
-//
-//        long endTime = System.currentTimeMillis();
-//        long executionTime = endTime - startTime;
-//        System.out.println("Время выполнения: " + executionTime + " миллисекунд");
-
-        // task 6
-//        Set<Integer> set1 = new HashSet<>();
-//        set1.add(1);
-//        set1.add(2);
-//        set1.add(3);
-//
-//        Set<Integer> set2 = new HashSet<>();
-//        set2.add(3);
-//        set2.add(4);
-//        set2.add(5);
-//
-//        Set<Integer> intersection = findIntersection(set1, set2);
-//        System.out.println("Пересечение: " + intersection);
-//
-//        Set<Integer> union = findUnion(set1, set2);
-//        System.out.println("Объединение: " + union);
-//
-//        // task 7
-//        List<Double> currentList = List.of( 15.5, 12.2, 8.85, 12.1 );
-//        List<Double> voltageList = List.of( 97.12, 52.5, 32.2, 56. );
-//
-//        double resistance = findResistance(currentList, voltageList);
-//        System.out.println("Приближенное значение сопротивления R: " + resistance);
-//
-//        // task 8
-//        System.out.println("Сумма: " + pairwiseSum(Set.of(1, 2, 3, 4, 5, 6, 7, 8)));
-
-        // task 9
-//        Map<Integer, Integer> polynomial1 = new HashMap<>();
-//        polynomial1.put(2, 3);
-//        polynomial1.put(1, 2);
-//        polynomial1.put(0, 1);
-//
-//        Map<Integer, Integer> polynomial2 = new HashMap<>();
-//        polynomial2.put(2, 1);
-//        polynomial2.put(1, -2);
-//        polynomial2.put(0, 3);
-//
-//        Map<Integer, Integer> sum = addPolynomials(polynomial1, polynomial2);
-//        System.out.println("Сложенный многочлен: " + sum);
-
-        // task 11
-//        List<Integer> list = Arrays.asList(1, 5, 3, -3, 2, -5, -63, 0, 5, 5);
-//        sortBySign(list);
-//        System.out.println(list);
-    }
+    /*
+    * [19]
+    * На прямой гоночной трассе стоит N автомобилей, для каждого из которых известны начальное положение и скорость.
+    * Вывести первые K обгонов.
+    * */
 }
