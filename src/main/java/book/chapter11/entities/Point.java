@@ -31,7 +31,18 @@ public class Point {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Point point)) return false;
-        return Objects.equals(x, point.x) && Objects.equals(y, point.y);
+        return ((Point) o).getX() == x && ((Point) o).getY() == y;
+//        return Objects.equals(x, point.x) && Objects.equals(y, point.y);
+    }
+
+    public boolean equalsX(Object o) {
+        if (!(o instanceof Point point)) return false;
+        return ((Point) o).getX() == x;
+    }
+
+    public boolean equalsY(Object o) {
+        if (!(o instanceof Point point)) return false;
+        return ((Point) o).getY() == y;
     }
 
     @Override

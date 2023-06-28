@@ -27,6 +27,39 @@ public class Line {
         this.p2 = p2;
     }
 
+    public boolean pointOnLine(Point p) {
+        if (p1.equals(p) || p2.equals(p1)) return false;
+
+        if (parallelX(p))
+            return p1.getY() < p.getY() && p.getY() < p2.getY();
+
+        if (parallelY(p))
+            return p1.getX() < p.getX() && p.getX() < p2.getX();
+
+        return (calculateDistance(this.p1, p) + calculateDistance(this.p2, p)) == calculateDistance() &&
+                (p1.getX() - p.getX()) * (p.getY() - p2.getY()) == (p.getX() - p2.getX()) * (p1.getY() - p.getY());
+    }
+
+    public boolean parallelX(Point point) {
+        return p1.equalsX(point) && p2.equalsX(point);
+    }
+
+    public boolean parallelY(Point point) {
+        return p1.equalsY(point) && p2.equalsY(point);
+    }
+
+    public double calculateDistance() {
+        double dx = p2.getX() - p1.getX();
+        double dy = p2.getY() - p1.getY();
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    public double calculateDistance(Point p1, Point p2) {
+        double dx = p2.getX() - p1.getX();
+        double dy = p2.getY() - p1.getY();
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
