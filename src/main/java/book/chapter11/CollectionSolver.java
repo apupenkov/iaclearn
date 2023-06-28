@@ -1,5 +1,8 @@
 package book.chapter11;
 
+import book.chapter11.entities.Line;
+import book.chapter11.entities.Point;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -451,7 +454,7 @@ public class CollectionSolver {
     /*
     * [9]
     * Во входном файле расположены два набора положительных чисел; между наборами стоит отрицательное число. Построить
-    * два списка C1 и С2, элементы которых содержат соответственно числа 1­го и 2­го набора таким образом, чтобы
+    * два списка C1 и С2, элементы которых содержат соответственно числа 1-го и 2-го набора таким образом, чтобы
     * внутри одного списка числа были упорядочены по возрастанию. Затем объединить списки C1 и С2 в один упорядоченный
     * список, изменяя только значения полей ссылочного типа.
     * */
@@ -478,6 +481,111 @@ public class CollectionSolver {
     * На плоскости задано N точек. Вывести в файл описания всех прямых, которые проходят более чем через одну точку из
     * заданных. Для каждой прямой указать, через сколько точек она проходит. Использовать класс HashMap.
     * */
+
+    /*
+        Чтобы линия проходила минимум через две или более точки (можно построить)
+        class point (x, y)
+        List<Poing> ponts = points()
+
+    */
+    public static List<Line> getLines(List<Point> points) {
+        List<Line> lines = new ArrayList<>();
+        for (int i = 0; i < points.size() - 1; i++) {
+            for (int j = i + 1; j < points.size(); j++) {
+                lines.add(new Line(points.get(i), points.get(j)));
+            }
+        }
+        return lines;
+    }
+
+    public static boolean pointOnLine(Point start, Point end, Point point) {
+        if ((start.getX() == point.getX() && start.getY() == point.getY()) ||
+                (end.getX() == point.getX() && end.getY() == point.getY())) {
+            System.out.println("Точка является стартом или концом линии");
+            return false;
+        }
+        if (start.getX() == end.getX() && end.getX() == point.getX()) {
+            System.out.println("Прямая паралельна оси X");
+            if (start.getY() < point.getY() && point.getY() < end.getY()) {
+                System.out.println("Точка лежит между точкой начала и точкой конца и находится на линии");
+                return true;
+            }
+            return false;
+        }
+
+        if (start.getY() == end.getY() && end.getY() == point.getY()) {
+            System.out.println("Прямая паралельна оси Y");
+            if (start.getX() < point.getX() && point.getX() < end.getX()) {
+                System.out.println("Точка лежит между точкой начала и точкой конца и находится на линии");
+                return true;
+            }
+            return false;
+        }
+
+//        (x - x1) * (y2 - y1) - (x2 - x1) * (y - y1) = 0
+        return (point.getX() - start.getX()) * (end.getY() - start.getY()) - (end.getX() - start.getX()) * (point.getY() - start.getY()) == 0;
+    }
+
+    public static Map<Line, List<Point>> getLinesThroughPoints(List<Line> lines, List<Point> points) {
+        Map<Line, List<Point>> result = new HashMap<>();
+        List<Point> inputPoints = new ArrayList<>();
+        for (Line line : lines) {
+            int count = 0;
+            for (Point p : points) {
+                if (pointOnLine(line.getP1(), line.getP2(), p)) {
+                    count++;
+                    System.out.println(line + " = " + p + "\n");
+                    inputPoints.add(p);
+                }
+            }
+            if (count > 1) {
+                result.put(line, inputPoints);
+            }
+            count = 0;
+            inputPoints.clear();
+        }
+        return result;
+    }
+
+    public static void main(String[] args) {
+        List<Point> points = new ArrayList<>();
+
+        for (int i = 1; i < 5; i++) {
+            for (int j = 1; j < 5; j++) {
+                points.add(new Point(i, j));
+            }
+        }
+
+
+        List<Line> lines = getLines(points);
+//        List<Line> lines = new ArrayList<>();
+
+//        lines.add(new Line(new Point(1,1), new Point(1, 2)));
+//        lines.add(new Line(new Point(1,1), new Point(3, 1)));
+//        lines.add(new Line(new Point(1,1), new Point(4, 1)));
+//        lines.add(new Line(new Point(1,1), new Point(4, 2)));
+//        lines.add(new Line(new Point(1,1), new Point(4, 3)));
+//        lines.add(new Line(new Point(1,1), new Point(4, 4)));
+//        lines.add(new Line(new Point(1,1), new Point(5, 1)));
+
+        Map<Line, List<Point>> linePoints = getLinesThroughPoints(lines, points);
+
+        System.out.println("Линии, которые проходят через более чем одну точку:");
+        for (Map.Entry<Line, List<Point>> entry : linePoints.entrySet()) {
+            System.out.println("Line: " + entry.getKey());
+            System.out.println("Points:\n" + entry.getKey().toString());
+//            int i = 0;
+//            for (Point p : entry.getValue()) {
+//                System.out.println("\t" + i++ + ": " + p);
+//            }
+        }
+//        linePoints.forEach((key, value) -> System.out.println(key + ": " + value));
+
+//        System.out.println("Линия и взодящие в неё точки");
+//        listPoints.forEach((key, value) -> System.out.println(key + ": " + Arrays.toString(value.toArray())));
+//        lines.forEach(System.out::println);
+
+    }
 
 
     /*
