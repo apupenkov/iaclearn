@@ -1,7 +1,5 @@
 package collections.model;
 
-import java.util.Objects;
-
 public class Point {
 
     private final int x, y;
@@ -39,5 +37,4 @@ public class Point {
     public String toString() {
         return "[" + x + "," + y + "]";
     }
-
 }

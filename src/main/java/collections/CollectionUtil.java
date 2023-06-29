@@ -44,13 +44,13 @@ public class CollectionUtil {
 
                 }
 
-//                if (!result.containsKey(mainLine)) {
-//                    result.put(mainLine, mainLine.getPoints());
-//                }
-
                 if (!contains(result.keySet(), mainLine)) {
                     result.put(mainLine, mainLine.getPoints());
                 }
+
+//                if (!result.containsKey(mainLine)) {
+//                    result.put(mainLine, mainLine.getPoints());
+//                }
             }
         }
 

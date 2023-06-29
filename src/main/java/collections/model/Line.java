@@ -72,10 +72,7 @@ public class Line {
 
     @Override
     public String toString() {
-        return "Line{" +
-                "startPoint=" + startPoint +
-                ", endPoint=" + endPoint +
-                '}';
+        return "Line{" + "startPoint=" + startPoint + ", endPoint=" + endPoint + '}';
     }
 
     @Override
