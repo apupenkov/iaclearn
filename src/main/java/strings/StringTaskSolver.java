@@ -432,9 +432,9 @@ public class StringTaskSolver {
                 common.add(c);
             }
         }
-
         char[] result = new char[common.size()];
         int i = 0;
+
         for (char c : common) {
             result[i++] = c;
         }
