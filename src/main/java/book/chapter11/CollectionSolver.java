@@ -490,8 +490,8 @@ public class CollectionSolver {
         использовать вместо list<Point> set<Point>
 
     */
-    public static Set<Line> getLines(List<Point> points) {
-        Set<Line> lines = new HashSet<>();
+    public static List<Line> getLines(List<Point> points) {
+        List<Line> lines = new ArrayList<>();
         for (int i = 0; i < points.size() - 1; i++) {
             for (int j = i + 1; j < points.size(); j++) {
                 lines.add(new Line(points.get(i), points.get(j)));
@@ -524,12 +524,15 @@ public class CollectionSolver {
         List<Point> points = new ArrayList<>();
         for (int i = 1; i < 5; i++) {
             for (int j = 1; j < 5; j++) {
+//                System.out.println("new Point(" + i + ", " + j + "),");
                 points.add(new Point(i, j));
             }
         }
 
+        points.forEach(e -> System.out.print(e.getX() + "|" + e.getY() + ", "));
 
-        List<Line> lines = getLines(points).stream().toList();
+
+        List<Line> lines = getLines(points);
 
         Map<Line, Set<Point>> linePoints = getLinesThroughPoints(lines, new HashSet<>(points));
 
