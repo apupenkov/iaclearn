@@ -58,16 +58,10 @@ public class Line {
 
         Line line = (Line) o;
 
-        int count = 0;
-        for (Point outerPoint : line.getPoints()) {
-            for (Point innerPoint : getPoints()) {
-                if (outerPoint.equals(innerPoint)) {
-                    count++;
-                    if (count == 2) return true;
-                }
-            }
-        }
-        return false;
+        return (line.getEndPoint().getY() - startPoint.getY()) * (endPoint.getX() - startPoint.getX())
+                == (endPoint.getY() - startPoint.getY()) * (line.getEndPoint().getX() - startPoint.getX())
+                && (line.getStartPoint().getY() - startPoint.getY()) * (endPoint.getX() - startPoint.getX())
+                == (endPoint.getY() - startPoint.getY()) * (line.getStartPoint().getX() - startPoint.getX());
     }
 
     @Override
@@ -77,8 +71,6 @@ public class Line {
 
     @Override
     public int hashCode() {
-        int result = startPoint.hashCode();
-        result = 31 * result + endPoint.hashCode();
-        return result;
+        return 1;
     }
 }
