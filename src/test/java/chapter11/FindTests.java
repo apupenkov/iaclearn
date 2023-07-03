@@ -3,23 +3,24 @@ package chapter11;
 import book.chapter11.CollectionSolver;
 import book.chapter11.entities.Line;
 import book.chapter11.entities.Point;
+import chapter11.ArgumentsProviders.GetLinesArgumentsProvider;
+import chapter11.ArgumentsProviders.GetPointsArgumentsProvider;
+import chapter11.ArgumentsProviders.LineArgumentProvider;
 import help_modules.IntArrayConverter;
 import help_modules.StringArrayConverter;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.converter.ConvertWith;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.junit.jupiter.params.provider.CsvFileSource;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class FindTests {
     @ParameterizedTest(name = "Tested {index} tasks {displayName}")
@@ -127,109 +128,109 @@ public class FindTests {
             }
             assertEquals(expected, CollectionSolver.findStringByKey(input, value));
         }
+
+        @ParameterizedTest(name = "Tested {index} tasks {displayName}")
+        @CsvFileSource(
+                resources = "/getListStringTest.csv",
+                delimiter = ';',
+                nullValues = {"NULL"},
+                numLinesToSkip = 1
+        )
+        void getListStringTest(
+                @ConvertWith(IntArrayConverter.class) int[] inputKeys,
+                @ConvertWith(StringArrayConverter.class) String[] inputValues,
+                @ConvertWith(StringArrayConverter.class) String[] resultValues) {
+            Map<Integer, String> input = new HashMap<>();
+
+            for (int i = 0; i < inputKeys.length; i++) {
+                input.put(inputKeys[i], inputValues[i]);
+            }
+            assertArrayEquals(resultValues, CollectionSolver.getListString(input).toArray());
+        }
+
+        @ParameterizedTest(name = "Tested {index} tasks {displayName}")
+        @CsvFileSource(
+                resources = "/sumKeysByMoreValueTest.csv",
+                delimiter = ';',
+                nullValues = {"NULL"},
+                numLinesToSkip = 1
+        )
+        void sumKeysByMoreValueTest(
+                @ConvertWith(IntArrayConverter.class) int[] inputKeys,
+                @ConvertWith(StringArrayConverter.class) String[] inputValues,
+                int value,
+                int summ) {
+            Map<Integer, String> input = new HashMap<>();
+
+            for (int i = 0; i < inputKeys.length; i++) {
+                input.put(inputKeys[i], inputValues[i]);
+            }
+            assertEquals(summ, CollectionSolver.sumKeysByMoreValue(input, value));
+        }
+
+    }
+
+    @Nested
+    @DisplayName("Testing methods from task A6")
+    class SetFind {
+        @ParameterizedTest(name = "Tested {index} tasks {displayName}")
+        @CsvFileSource(
+                resources = "/findIntersectionTest.csv",
+                delimiter = ';',
+                nullValues = {"NULL"},
+                numLinesToSkip = 1
+        )
+        void findIntersectionTest(
+                @ConvertWith(IntArrayConverter.class) int[] array1,
+                @ConvertWith(IntArrayConverter.class) int[] array2,
+                @ConvertWith(IntArrayConverter.class) int[] expected
+        ) {
+            Set<Integer> set = Arrays.stream(expected).boxed().collect(Collectors.toSet());
+            if (expected.length > 1 && expected[0] == expected[1]) set = null;
+            assertEquals(set, CollectionSolver.findIntersection(
+                    Arrays.stream(array1).boxed().collect(Collectors.toSet()),
+                    Arrays.stream(array2).boxed().collect(Collectors.toSet())));
+        }
+
+        @ParameterizedTest(name = "Tested {index} tasks {displayName}")
+        @CsvFileSource(
+                resources = "/findUnionTest.csv",
+                delimiter = ';',
+                nullValues = {"NULL"},
+                numLinesToSkip = 1
+        )
+        void findUnionTest(
+                @ConvertWith(IntArrayConverter.class) int[] array1,
+                @ConvertWith(IntArrayConverter.class) int[] array2,
+                @ConvertWith(IntArrayConverter.class) int[] expected
+        ) {
+            Set<Integer> set = Arrays.stream(expected).boxed().collect(Collectors.toSet());
+            if (expected.length > 1 && expected[0] == expected[1]) set = null;
+            assertEquals(set, CollectionSolver.findUnion(
+                    Arrays.stream(array1).boxed().collect(Collectors.toSet()),
+                    Arrays.stream(array2).boxed().collect(Collectors.toSet())));
+        }
     }
 
     @Nested
     @DisplayName("Testing methods from task B16")
     class LinePoint {
         @ParameterizedTest(name = "Tested {index} tasks {displayName}")
+        @ArgumentsSource(GetPointsArgumentsProvider.class)
+        void getPointsTest(List<Point> input, List<Point> expected) {
+            assertEquals(input, expected);
+        }
+
+        @ParameterizedTest(name = "Tested {index} tasks {displayName}")
+        @ArgumentsSource(GetLinesArgumentsProvider.class)
+        void getLinesTest(List<Line> input, List<Line> expected) {
+            assertEquals(input, expected);
+        }
+
+        @ParameterizedTest(name = "Tested {index} tasks {displayName}")
         @ArgumentsSource(LineArgumentProvider.class)
         void getLinesThroughPointsTest(List<Point> points, List<Line> lines, Map<Line, Set<Point>> expected) {
             assertEquals(expected, CollectionSolver.getLinesThroughPoints(lines, new HashSet<>(points)));
         }
-//        @ParameterizedTest(name = "Tested {index} tasks {displayName}")
-//        @CsvFileSource(
-//                resources = "/getLinesThroughPointsTest.csv",
-//                delimiter = ';',
-//                nullValues = {"NULL"},
-//                numLinesToSkip = 1
-//        )
-//        void getLinesThroughPointsTest(
-//                @ConvertWith(StringArrayConverter.class) String[] inputPoints,
-//                @ConvertWith(StringArrayConverter.class) String[] inputLines,
-//                @ConvertWith(StringArrayConverter.class) String[] expectedLines) {
-//            List<Point> points = new ArrayList<>();
-//            for (String point : inputPoints) {
-//                points.add(new Point(Integer.parseInt(point.split("\\|")[0]), Integer.parseInt(point.split("\\|")[1])));
-//            }
-//
-//            List<Line> lines = new ArrayList<>();
-//            for (String line : inputLines) {
-//                lines.add(new Line(
-//                        new Point(Integer.parseInt(line.split("\\/")[0].split("\\|")[0]),
-//                                Integer.parseInt(line.split("\\/")[0].split("\\|")[1])),
-//                        new Point(Integer.parseInt(line.split("\\/")[1].split("\\|")[0]),
-//                                Integer.parseInt(line.split("\\/")[1].split("\\|")[1]))));
-//            }
-//
-//            points.forEach(System.out::println);
-//            lines.forEach(System.out::println);
-//        }
-    }
-}
-
-class LineArgumentProvider implements ArgumentsProvider {
-    @Override
-    public Stream<? extends Arguments> provideArguments(ExtensionContext context) {
-        return Stream.of(
-            Arguments.of(
-                    Arrays.asList(
-                            new Point(1, 1),
-                            new Point(1, 2),
-                            new Point(1, 3),
-                            new Point(1, 4),
-                            new Point(2, 1),
-                            new Point(2, 2),
-                            new Point(2, 3),
-                            new Point(2, 4),
-                            new Point(3, 1),
-                            new Point(3, 2),
-                            new Point(3, 3),
-                            new Point(3, 4),
-                            new Point(4, 1),
-                            new Point(4, 2),
-                            new Point(4, 3),
-                            new Point(4, 4)
-                    ),
-                    Arrays.asList(
-                            new Line(
-                                    new Point(1, 1),
-                                    new Point(1, 4)
-                            ),
-                            new Line(
-                                    new Point(1, 1),
-                                    new Point(4, 4)
-                            ),
-                            new Line(
-                                    new Point(1, 2),
-                                    new Point(4, 2)
-                            ),
-                            new Line(
-                                    new Point(1, 1),
-                                    new Point(1, 2)
-                            )
-                    ),
-                    new HashMap<Line, Set<Point>>() {{
-                        put(
-                                new Line(new Point(1, 1), new Point(1, 4)),
-                                new HashSet<>(Arrays.asList(
-                                        new Point(1, 2),
-                                        new Point(1, 3)
-                                )));
-                        put(
-                                new Line(new Point(1, 1), new Point(4, 1)),
-                                new HashSet<>(Arrays.asList(
-                                        new Point(2, 1),
-                                        new Point(3, 1)
-                                )));
-                        put(
-                                new Line(new Point(1, 2), new Point(4, 2)),
-                                new HashSet<>(Arrays.asList(
-                                        new Point(2, 2),
-                                        new Point(3, 2)
-                                )));
-                    }}
-            )
-        );
     }
 }

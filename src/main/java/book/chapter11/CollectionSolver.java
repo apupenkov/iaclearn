@@ -79,12 +79,12 @@ public class CollectionSolver {
                 .collect(Collectors.toMap(Entry::getKey, Entry::getValue));
     }
 
-    public static List<String> getListString(Map<Integer, String> input, int value) {
+    public static List<String> getListString(Map<Integer, String> input) {
         return input.values().stream().toList();
     }
 
 
-    public static int sumKeysByMoreValue(HashMap<Integer, String> input, int value) {
+    public static int sumKeysByMoreValue(Map<Integer, String> input, int value) {
         return input.keySet().stream().filter(x -> x > value).reduce(1, Integer::sum);
     }
 
@@ -181,7 +181,6 @@ public class CollectionSolver {
         }
     }
 
-
     /*
     * [6]
     * Определить множество на основе множества целых чисел. Создать методы
@@ -190,15 +189,14 @@ public class CollectionSolver {
     public static <T> Set<T> findIntersection(Set<T> set1, Set<T> set2) {
         Set<T> intersection = new HashSet<>(set1);
         intersection.retainAll(set2);
-        return intersection;
+        return (intersection.size() > 0) ? intersection : null;
     }
 
     public static <T> Set<T> findUnion(Set<T> set1, Set<T> set2) {
         Set<T> union = new HashSet<>(set1);
         union.addAll(set2);
-        return union;
+        return (union.size() > 0) ? union : null;
     }
-
 
     /*
     * [7]
@@ -292,6 +290,7 @@ public class CollectionSolver {
     * [12]
     * Ввести строки из файла, записать в список ArrayList. Выполнить сортировку строк, используя метод sort() из класса Collections.
     * */
+
 
 
 
@@ -490,6 +489,16 @@ public class CollectionSolver {
         использовать вместо list<Point> set<Point>
 
     */
+    public static List<Point> getPoints(int startX, int endX, int startY, int endY) {
+        List<Point> points = new ArrayList<>();
+        for (int i = startX; i <= endX; i++) {
+            for (int j = startY; j <= endY; j++) {
+                points.add(new Point(i, j));
+            }
+        }
+        return points;
+    }
+
     public static List<Line> getLines(List<Point> points) {
         List<Line> lines = new ArrayList<>();
         for (int i = 0; i < points.size() - 1; i++) {

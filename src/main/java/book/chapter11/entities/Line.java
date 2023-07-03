@@ -1,10 +1,11 @@
 package book.chapter11.entities;
 
 import java.util.Objects;
+import java.util.Set;
 
 public class Line {
-    private Point p1;
-    private Point p2;
+    private final Point p1, p2;
+//    private Set<Point>
 
     public Line(Point p1, Point p2) {
         this.p1 = p1;
@@ -15,29 +16,20 @@ public class Line {
         return p1;
     }
 
-    public void setP1(Point p1) {
-        this.p1 = p1;
-    }
-
     public Point getP2() {
         return p2;
-    }
-
-    public void setP2(Point p2) {
-        this.p2 = p2;
     }
 
     public boolean pointOnLine(Point p) {
         if (p1.equals(p) || p2.equals(p1)) return false;
 
-        if (parallelX(p))
-            return p1.getY() < p.getY() && p.getY() < p2.getY();
+        int dx1 = p2.getX() - p1.getX();
+        int dy1 = p2.getY() - p1.getY();
 
-        if (parallelY(p))
-            return p1.getX() < p.getX() && p.getX() < p2.getX();
+        int dx = p.getX() - p1.getX();
+        int dy = p.getY() - p1.getY();
 
-        return (calculateDistance(this.p1, p) + calculateDistance(this.p2, p)) == calculateDistance() &&
-                (p1.getX() - p.getX()) * (p.getY() - p2.getY()) == (p.getX() - p2.getX()) * (p1.getY() - p.getY());
+        return dx1 * dy - dx * dy1 == 0;
     }
 
     public boolean parallelX(Point point) {
@@ -69,7 +61,9 @@ public class Line {
 
     @Override
     public int hashCode() {
-        return Objects.hash(p1, p2);
+        int result = p1.hashCode();
+        result = 31 * result + p2.hashCode();
+        return result;
     }
 
     @Override
