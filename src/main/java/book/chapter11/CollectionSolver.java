@@ -287,12 +287,15 @@ public class CollectionSolver {
     }
 
     /*
-    * [12]
-    * Ввести строки из файла, записать в список ArrayList. Выполнить сортировку строк, используя метод sort() из класса Collections.
-    * */
-
-
-
+     * [12]
+     * Ввести строки из файла, записать в список ArrayList. Выполнить сортировку строк, используя метод sort() из класса Collections.
+     * */
+    public static ArrayList<String> sortByCollections(String[] array) {
+        ArrayList<String> list = new ArrayList<>(Arrays.asList(array));
+        Collections.sort(list);
+        System.out.println(list);
+        return list;
+    }
 
     /*
      * [13]
@@ -341,10 +344,20 @@ public class CollectionSolver {
     }
 
     /*
-    * [15]
-    * Задан файл с текстом на английском языке. Выделить все различные слова. Для каждого слова подсчитать частоту его
-    * встречаемости. Слова, отличающиеся регистром букв, считать различными. Использовать класс HashMap
-    * */
+     * [15]
+     * Задан файл с текстом на английском языке. Выделить все различные слова. Для каждого слова подсчитать частоту его
+     * встречаемости. Слова, отличающиеся регистром букв, считать различными. Использовать класс HashMap
+     * */
+    public static Map<String, Integer> countWords(String[] array) {
+        Map<String, Integer> result = new HashMap<>();
+        for (String str : array) {
+            if (result.containsKey(str)) {
+                result.put(str, result.get(str) + 1);
+            } else result.put(str, 1);
+        }
+        return result;
+    }
+
 
     /*
     * [16]
@@ -416,6 +429,9 @@ public class CollectionSolver {
     * Написать программу, осуществляющую сжатие английского текста. Построить для каждого слова в тексте оптимальный
     * префиксный код по алгоритму Хаффмена. Использовать класс PriorityQueue.
     * */
+    public static void Haffman() {
+
+    }
 
     /*
     * [4]
@@ -529,28 +545,28 @@ public class CollectionSolver {
         return result;
     }
 
-    public static void main(String[] args) {
-        List<Point> points = new ArrayList<>();
-        for (int i = 1; i < 5; i++) {
-            for (int j = 1; j < 5; j++) {
-//                System.out.println("new Point(" + i + ", " + j + "),");
-                points.add(new Point(i, j));
-            }
-        }
-
-        points.forEach(e -> System.out.print(e.getX() + "|" + e.getY() + ", "));
-
-
-        List<Line> lines = getLines(points);
-
-        Map<Line, Set<Point>> linePoints = getLinesThroughPoints(lines, new HashSet<>(points));
-
-        System.out.println("Линии, которые проходят через более чем одну точку:");
-        for (Map.Entry<Line, Set<Point>> entry : linePoints.entrySet()) {
-            System.out.println("Line: " + entry.getKey());
-            System.out.println("Points:\n" + entry.getValue().toString() + "\n");
-        }
-    }
+//    public static void main(String[] args) {
+//        List<Point> points = new ArrayList<>();
+//        for (int i = 1; i < 5; i++) {
+//            for (int j = 1; j < 5; j++) {
+////                System.out.println("new Point(" + i + ", " + j + "),");
+//                points.add(new Point(i, j));
+//            }
+//        }
+//
+//        points.forEach(e -> System.out.print(e.getX() + "|" + e.getY() + ", "));
+//
+//
+//        List<Line> lines = getLines(points);
+//
+//        Map<Line, Set<Point>> linePoints = getLinesThroughPoints(lines, new HashSet<>(points));
+//
+//        System.out.println("Линии, которые проходят через более чем одну точку:");
+//        for (Map.Entry<Line, Set<Point>> entry : linePoints.entrySet()) {
+//            System.out.println("Line: " + entry.getKey());
+//            System.out.println("Points:\n" + entry.getValue().toString() + "\n");
+//        }
+//    }
 
 
     /*
