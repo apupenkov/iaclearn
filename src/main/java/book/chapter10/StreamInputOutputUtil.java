@@ -1,5 +1,7 @@
 package book.chapter10;
 
+import book.chapter10.model.Student;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -122,7 +124,43 @@ public class StreamInputOutputUtil {
     * имеют средний балл более 7.
     * */
 
+    public static void writeSerializedStudent(String path, List<Student> students) {
+        try (ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(path))) {
+            output.writeObject(students);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    public static List<Student> readSerializedStudent(String pathfile) {
+        try (ObjectInputStream input = new ObjectInputStream(new FileInputStream(pathfile))) {
+            List<Student> students = (List<Student>) input.readObject();
+            return students;
+        } catch (ClassNotFoundException | IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static int average(List<Integer> nums) {
+        int average = 0;
+        for (int num : nums) {
+            average += num;
+        }
+        return average / nums.size();
+    }
+
+    public static List<String> getStudentsByGrade(List<Student> students, int grade) {
+        if (grade > Student.MAX_GRADE || grade < Student.MIN_GRADE)
+            throw new IllegalArgumentException("The number is greater or less than allowed");
+
+        List<String> lastnameStudents = new ArrayList<>();
+        for (Student student : students) {
+            if (average(student.getGrades()) > grade) {
+                lastnameStudents.add(student.getLastname().toLowerCase());
+            }
+        }
+        return lastnameStudents;
+    }
 
     /*
     * [6]

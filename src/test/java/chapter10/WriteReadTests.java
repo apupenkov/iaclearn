@@ -1,7 +1,10 @@
 package chapter10;
 
 import book.chapter10.StreamInputOutputUtil;
+import book.chapter10.model.Student;
+import chapter10.ArgumentsProviders.StudentsByGradeArgumentsProvider;
 import chapter10.ArgumentsProviders.WriteRandomNumberArgumentsProvider;
+import chapter10.ArgumentsProviders.WriteSerializedStudentsArgumentsProvider;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
@@ -9,6 +12,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -59,6 +63,30 @@ public class WriteReadTests {
         )
         public void writeRandomNumberIllegalArgumentExceptionTest(String path, String file, int count) {
             assertThrows(IllegalArgumentException.class, () -> StreamInputOutputUtil.writeRandomNumberInFile(path, file, count));
+        }
+    }
+
+    @Nested
+    class ReadWriteStudent {
+        @ParameterizedTest(name = "Tested {index} tasks {displayName}")
+        @ArgumentsSource(WriteSerializedStudentsArgumentsProvider.class)
+        public void writeSerializedStudentTest(String path, List<Student> students) {
+            StreamInputOutputUtil.writeSerializedStudent(path, students);
+        }
+
+        @ParameterizedTest(name = "Tested {index} tasks {displayName}")
+        @ArgumentsSource(WriteSerializedStudentsArgumentsProvider.class)
+        public void readSerializedStudentTest(String path, List<Student> students) {
+            assertEquals(students, StreamInputOutputUtil.readSerializedStudent(path));
+        }
+
+        @ParameterizedTest(name = "Tested {index} tasks {displayName}")
+        @ArgumentsSource(StudentsByGradeArgumentsProvider.class)
+        public void getStudentsByGrade(String filepath, int grade, List<String> lastnameStudents) {
+            assertEquals(
+                    StreamInputOutputUtil.getStudentsByGrade(StreamInputOutputUtil.readSerializedStudent(filepath), grade),
+                    lastnameStudents
+            );
         }
     }
 }
