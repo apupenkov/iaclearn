@@ -1,5 +1,10 @@
 package book.chapter10;
 
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.*;
+
 public class StreamInputOutputUtil {
 
     /*
@@ -64,6 +69,38 @@ public class StreamInputOutputUtil {
     * Создать и заполнить файл случайными целыми числами. Отсортировать содержимое файла по возрастанию.
     * */
 
+    public static int getRandom() {
+        return new Random().nextInt();
+    }
+
+    public static void writeRandomNumberInFile(String path, String file, int countNumbers) throws FileNotFoundException {
+        if (!Files.exists(Path.of(path))) throw new FileNotFoundException("Path " + path + " does not exist");
+        if (countNumbers < 1) throw new IllegalArgumentException("Number of numbers must be 1 or more");
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(path + "/" + file))) {
+            for (int i = 0; i < countNumbers; i++) {
+                writer.write(String.valueOf(getRandom()));
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static List<Integer> readRandomNumbersFromFile(String path, String file) throws IOException {
+        List<Integer> list = new ArrayList<>();
+        try (Scanner scan = new Scanner(new FileReader(path + "/" + file))) {
+            while (scan.hasNext()) {
+                if (scan.hasNextInt()) {
+                    list.add(scan.nextInt());
+                } else throw new IOException("File contains more than just numbers.");
+            }
+        } catch (FileNotFoundException e) {
+            throw new FileNotFoundException("Path " + path + " does not exist");
+        }
+        Collections.sort(list);
+        return list;
+    }
+
     /*
     * [2]
     * Прочитать текст Java-программы и все слова public в объявлении атрибутов и методов класса заменить на слово private.
@@ -84,6 +121,8 @@ public class StreamInputOutputUtil {
     * В файле, содержащем фамилии студентов и их оценки, записать прописными буквами фамилии тех студентов, которые
     * имеют средний балл более 7.
     * */
+
+
 
     /*
     * [6]
