@@ -48,9 +48,9 @@ public class CollectionUtil {
                     result.put(mainLine, mainLine.getPoints());
                 }
 
-//                if (!result.containsKey(mainLine)) {
-//                    result.put(mainLine, mainLine.getPoints());
-//                }
+                if (!result.containsKey(mainLine)) {
+                    result.put(mainLine, mainLine.getPoints());
+                }
             }
         }
 
