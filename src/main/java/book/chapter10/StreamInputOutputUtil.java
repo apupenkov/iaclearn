@@ -221,7 +221,7 @@ public class StreamInputOutputUtil {
     * только максимальное четное количество таких слов.
     * */
 
-    public static void removeWordsOfSpecificLength(String path, int startLength, int endLength) {
+    public static void removeWordsOfSpecificLength(String path, int startLength, int endLength) throws FileNotFoundException {
         if (startLength > endLength || startLength < 0)
             throw new IllegalArgumentException("Неправильно указанная длина");
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
@@ -252,7 +252,7 @@ public class StreamInputOutputUtil {
                 writer.newLine();
             }
         } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            throw new FileNotFoundException();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
