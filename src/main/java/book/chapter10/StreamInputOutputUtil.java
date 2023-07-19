@@ -275,6 +275,38 @@ public class StreamInputOutputUtil {
     * последних слов в каждой из последних n строк.
     * */
 
+    public static void saveLastMWords(String inputPath, String outputPath, int n, int m) throws FileNotFoundException {
+        if ((n | m) < 0)
+            throw new IllegalArgumentException("Количество строк или последних слов не может быть отрицательным.");
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(inputPath)));
+             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputPath, false)))) {
+            String words = "";
+            LinkedList<String> list = new LinkedList<>();
+            while ((words = reader.readLine()) != null) {
+                if (list.size() >= n && list.size() != 0) {
+                    list.removeFirst();
+                }
+                list.addLast(words);
+            }
+            for (String str : list) {
+                LinkedList<String> temp = new LinkedList<>();
+
+                for (String word : str.split("\\W+")) {
+                    if (temp.size() >= m && list.size() != 0) {
+                        temp.removeFirst();
+                    }
+                    temp.addLast(word);
+                }
+                writer.write(String.join(" ", temp.stream().toList()));
+                writer.newLine();
+            }
+        } catch (FileNotFoundException e) {
+            throw new FileNotFoundException();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     /*
     * [11]
     * Ввести из текстового файла, связанного с входным потоком, последовательность строк. Выбрать и сохранить m
