@@ -5,27 +5,35 @@ import java.io.Serializable;
 import java.util.*;
 
 public class Student implements Serializable {
-    private int id;
+    private long id;
+    private static long last_id = 0;
     private String lastname;
     private List<Integer> grades;
     @Serial
-    private static final long serialVersionUID = 2L;
+    private static final long serialVersionUID = 3L;
     public static final int MAX_GRADE = 10;
     public static final int MIN_GRADE = 1;
 
     public Student() {}
 
-    public Student(int id, String lastname, List<Integer> grades) {
+    public Student(String lastname, List<Integer> grades) {
+        this.id = last_id + 1;
+        ++ last_id;
+        this.lastname = lastname;
+        this.grades = grades;
+    }
+
+    public Student(long id, String lastname, List<Integer> grades) {
         this.id = id;
         this.lastname = lastname;
         this.grades = grades;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -43,6 +51,20 @@ public class Student implements Serializable {
 
     public void setGrades(List<Integer> grades) {
         this.grades = grades;
+    }
+
+    public static boolean checkUniqueId(List<Student> students) {
+        Set<Long> ids = new HashSet<>();
+        for (Student student : students) {
+            if (ids.size() == 0) {
+                ids.add(student.getId());
+                continue;
+            }
+            if (ids.size() > 0 || ids.contains(student.getId())) {
+                ids.add(student.getId());
+            } else return false;
+        }
+        return true;
     }
 
     @Override

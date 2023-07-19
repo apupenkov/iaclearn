@@ -22,13 +22,13 @@ public class WriteSerializedStudentsArgumentsProvider implements ArgumentsProvid
                         new Student(7, "Baiden", List.of(8, 8, 8, 9, 8, 9, 8, 8, 10))
                 )),
                 Arguments.of("data/students1.dat", List.of(
-                        new Student(6, "Hunt", List.of(8, 6, 5, 7, 9)),
-                        new Student(3, "Richardson", List.of(9, 6, 10, 10, 10, 9, 5, 10, 7)),
-                        new Student(35, "Jordan", List.of(7, 8, 10, 9, 10, 6)),
-                        new Student(62, "Houston", List.of(5, 8, 6, 7, 10)),
-                        new Student(2, "Edwards", List.of(6, 9, 5, 6, 10, 5, 9, 10, 7)),
-                        new Student(647, "Howard", List.of(9, 7, 6, 9, 10, 10, 10, 8)),
-                        new Student(1, "Ruiz", List.of(5, 5, 5, 7, 8, 9, 9, 9, 10))
+                        new Student(8, "Hunt", List.of(8, 6, 5, 7, 9)),
+                        new Student(9, "Richardson", List.of(9, 6, 10, 10, 10, 9, 5, 10, 7)),
+                        new Student(10, "Jordan", List.of(7, 8, 10, 9, 10, 6)),
+                        new Student(11, "Houston", List.of(5, 8, 6, 7, 10)),
+                        new Student(12, "Edwards", List.of(6, 9, 5, 6, 10, 5, 9, 10, 7)),
+                        new Student(13, "Howard", List.of(9, 7, 6, 9, 10, 10, 10, 8)),
+                        new Student(14, "Ruiz", List.of(5, 5, 5, 7, 8, 9, 9, 9, 10))
                 ))
         );
     }

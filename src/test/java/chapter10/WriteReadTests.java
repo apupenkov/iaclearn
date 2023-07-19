@@ -1,8 +1,10 @@
 package chapter10;
 
 import book.chapter10.StreamInputOutputUtil;
+import book.chapter10.exceptions.StudentException;
 import book.chapter10.model.Student;
 import chapter10.ArgumentsProviders.StudentsByGradeArgumentsProvider;
+import chapter10.ArgumentsProviders.WriteInvalidSerializedStudentArgumentsProvider;
 import chapter10.ArgumentsProviders.WriteRandomNumberArgumentsProvider;
 import chapter10.ArgumentsProviders.WriteSerializedStudentsArgumentsProvider;
 import org.junit.jupiter.api.Nested;
@@ -14,6 +16,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
+import static book.chapter10.StreamInputOutputUtil.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class WriteReadTests {
@@ -71,22 +74,58 @@ public class WriteReadTests {
         @ParameterizedTest(name = "Tested {index} tasks {displayName}")
         @ArgumentsSource(WriteSerializedStudentsArgumentsProvider.class)
         public void writeSerializedStudentTest(String path, List<Student> students) {
-            StreamInputOutputUtil.writeSerializedStudent(path, students);
+            try {
+                StreamInputOutputUtil.writeSerializedStudent(path, students);
+            } catch (StudentException e) {
+                e.printStackTrace();
+                fail();
+            }
+        }
+
+        @ParameterizedTest(name = "Tested {index} tasks {displayName}")
+        @ArgumentsSource(WriteInvalidSerializedStudentArgumentsProvider.class)
+        public void writeSerializedStudentInvalidArgumentTest(String path, List<Student> students) {
+            assertThrows(StudentException.class, () -> StreamInputOutputUtil.writeSerializedStudent(path, students));
         }
 
         @ParameterizedTest(name = "Tested {index} tasks {displayName}")
         @ArgumentsSource(WriteSerializedStudentsArgumentsProvider.class)
         public void readSerializedStudentTest(String path, List<Student> students) {
-            assertEquals(students, StreamInputOutputUtil.readSerializedStudent(path));
+            try {
+                assertEquals(students, readSerializedStudent(path));
+            } catch (StudentException e) {
+                e.printStackTrace();
+                fail();
+            }
         }
 
         @ParameterizedTest(name = "Tested {index} tasks {displayName}")
         @ArgumentsSource(StudentsByGradeArgumentsProvider.class)
-        public void getStudentsByGrade(String filepath, int grade, List<String> lastnameStudents) {
-            assertEquals(
-                    StreamInputOutputUtil.getStudentsByGrade(StreamInputOutputUtil.readSerializedStudent(filepath), grade),
-                    lastnameStudents
-            );
+        public void getStudentsByGradeTest(String filepath, int grade, List<String> lastnameStudents) {
+            try {
+                assertEquals(
+                        StreamInputOutputUtil.getStudentsByGrade(readSerializedStudent(filepath), grade),
+                        lastnameStudents
+                );
+            } catch (StudentException e) {
+                e.printStackTrace();
+                fail();
+            }
         }
+
+//        @ParameterizedTest(name = "Tested {index} tasks {displayName}")
+//        @ArgumentsSource(StudentsByGradeArgumentsProvider.class)
+//        public void addLastnameSuccessfulStudentsTest(String filepath, int grade, List<String> lastnameStudent) {
+//            try {
+//                addLastnameSuccessfulStudents(filepath, getStudentsByGrade(readSerializedStudent(filepath), grade));
+//                assertEquals(lastnameStudent, checkCorrectData(filepath));
+//            } catch (StudentException e) {
+//                e.printStackTrace();
+//                fail();
+//            } catch (RuntimeException e) {
+//                e.printStackTrace();
+//                fail();
+//            }
+//        }
     }
 }

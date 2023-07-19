@@ -1,5 +1,6 @@
 package book.chapter10;
 
+import book.chapter10.exceptions.StudentException;
 import book.chapter10.model.Student;
 
 import java.io.*;
@@ -124,7 +125,19 @@ public class StreamInputOutputUtil {
     * имеют средний балл более 7.
     * */
 
-    public static void writeSerializedStudent(String path, List<Student> students) {
+    public static void writeSerializedStudent(String path, List<Student> students) throws StudentException {
+        for (Student student :
+                students) {
+            if (student == null) {
+                throw new StudentException("Данные о студенте не могут быть пустыми.");
+            } else if (student.getLastname() == null || Objects.equals(student.getLastname(), "")) {
+                throw new StudentException("Имя студента не может быть пустым.");
+            } else if (student.getId() < 1) {
+                throw new StudentException("Идентификатор пользователя не может быть отрицательным или быть нулевым");
+            } else if (!Student.checkUniqueId(students)) {
+                throw new StudentException("Все пользователи должны быть с уникальными идентификаторами (id)");
+            }
+        }
         try (ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(path))) {
             output.writeObject(students);
         } catch (IOException e) {
@@ -132,12 +145,39 @@ public class StreamInputOutputUtil {
         }
     }
 
-    public static List<Student> readSerializedStudent(String pathfile) {
+//    public static void addLastnameSuccessfulStudents(String path, List<String> lastNames) {
+//        try (ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(path, false))) {
+//            output.writeObject(lastNames);
+//        } catch (FileNotFoundException e) {
+//            throw new RuntimeException(e);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
+
+//    public static List<String> checkCorrectData(String path) {
+//        try (ObjectInputStream input = new ObjectInputStream(new FileInputStream(path))) {
+//            input.readObject();
+//            return (List<String>) input.readObject();
+//        } catch (FileNotFoundException e) {
+//            throw new RuntimeException(e);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        } catch (ClassNotFoundException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
+
+    public static List<Student> readSerializedStudent(String pathfile) throws StudentException {
         try (ObjectInputStream input = new ObjectInputStream(new FileInputStream(pathfile))) {
             List<Student> students = (List<Student>) input.readObject();
             return students;
+        } catch (InvalidClassException e) {
+            throw new StudentException("Версия читаемого и существующего класса разные.");
+        } catch (NotSerializableException e) {
+            throw new StudentException("Не удалось десериализовать объект");
         } catch (ClassNotFoundException | IOException e) {
-            throw new RuntimeException(e);
+            throw new StudentException("Класс объекта не найден или произошла ошибка чтения из файла.");
         }
     }
 
@@ -154,11 +194,17 @@ public class StreamInputOutputUtil {
             throw new IllegalArgumentException("The number is greater or less than allowed");
 
         List<String> lastnameStudents = new ArrayList<>();
-        for (Student student : students) {
-            if (average(student.getGrades()) > grade) {
-                lastnameStudents.add(student.getLastname().toLowerCase());
+        try {
+            for (Student student : students) {
+                int average = average(student.getGrades());
+                if (average > grade) {
+                    lastnameStudents.add(student.getLastname().toLowerCase());
+                }
             }
+        } catch (ClassCastException e) {
+            throw new RuntimeException(e);
         }
+
         return lastnameStudents;
     }
 
