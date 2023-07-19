@@ -7,6 +7,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class StreamInputOutputUtil {
 
@@ -219,6 +220,43 @@ public class StreamInputOutputUtil {
     * Из файла удалить все слова, содержащие от трех до пяти символов, но при этом из каждой строки должно быть удалено
     * только максимальное четное количество таких слов.
     * */
+
+    public static void removeWordsOfSpecificLength(String path, int startLength, int endLength) {
+        if (startLength > endLength || startLength < 0)
+            throw new IllegalArgumentException("Неправильно указанная длина");
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
+             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path + ".tmp", false)))) {
+            String words = "";
+            while ((words = reader.readLine()) != null) {
+                int evenCount = 0;
+                for (String word : words.split("\\W+")) {
+                    if (word.length() >= 3 && word.length() <= 5) {
+                        evenCount++;
+                    }
+                }
+
+                int wordsToRemove = evenCount % 2 == 0 ? evenCount : evenCount - 1;
+                int removedCount = 0;
+                StringBuilder sb = new StringBuilder();
+
+                for (String word : words.split("\\W+")) {
+                    if (word.length() >= 3 && word.length() <= 5) {
+                        if (removedCount < wordsToRemove) {
+                            removedCount++;
+                            continue;
+                        }
+                    }
+                    sb.append(word).append(" ");
+                }
+                writer.write(sb.toString().trim());
+                writer.newLine();
+            }
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     /*
     * [8]
