@@ -4,12 +4,106 @@ import book.chapter10.exceptions.StudentException;
 import book.chapter10.model.Student;
 
 import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
-import java.util.stream.Collectors;
+import java.util.regex.Pattern;
+
+import static java.nio.charset.StandardCharsets.*;
 
 public class StreamInputOutputUtil {
+
+    /*
+    * Дополнительные задачи для решения используя java.nio
+    * */
+
+    /*
+    * [1]
+    * Прочитайте содержимое файла `input.txt`, разбейте его на слова и подсчитайте
+    * количество слов. Затем выведите результат.
+    * */
+
+    public static long getCountWords(String line) {
+        try {
+            return Pattern.compile("\\W+").split(line.trim()).length;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static long calculateCountWordsInFileNIO(String path) {
+        try (BufferedReader reader = Files.newBufferedReader(Paths.get(path), UTF_8)) {
+            long countWords = 0;
+            String line = "";
+            while ((line = reader.readLine()) != null) {
+                countWords += getCountWords(line);
+            }
+            return countWords;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static long calculateCountWordsInFileNIOReadAllLines(String path) {
+        try {
+            List<String> lines = Files.readAllLines(Paths.get(path));
+            long count = 0;
+            for (String line : lines) {
+                count += getCountWords(line);
+            }
+            return count;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static long calculateCountWordsInFileNIOStream(String path) {
+        try {
+            long count = 0;
+            List<String> list = new ArrayList<>();
+            Files.lines(Paths.get(path)).forEach(list::add);
+            for (String line : list) {
+                count += getCountWords(line);
+            }
+            return count;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /*
+    * [2]
+    * Скопируйте все файлы и поддиректории из директории `source` в директорию
+    * `destination`. При этом сохраните структуру директорий и содержимое файлов.
+    * */
+
+    public static void copyDirectory(String sourcePath, String copyPath) {
+        try {
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /*
+    * [3]
+    * Сравните содержимое двух файлов `file1.txt` и `file2.txt`. Выведите сообщение о том, равны ли файлы или нет.
+    * */
+
+    /*
+    * [4]
+    * Найдите все файлы с расширением `.txt` в директории `files`, прочитайте их содержимое и найдите
+    * все вхождения текста `keyword`. Выведите список файлов и количество вхождений ключевого слова в каждом файле.
+    * */
+
+    /*
+    * [5]
+    * Сравните содержимое двух файлов `file1.txt` и `file2.txt` построчно. Выведите номера строк, в
+    * которых содержимое файлов отличается.
+    * */
 
     /*
     * Вариант A
