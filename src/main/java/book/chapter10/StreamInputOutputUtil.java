@@ -6,9 +6,8 @@ import book.chapter10.model.Student;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -80,9 +79,21 @@ public class StreamInputOutputUtil {
     * `destination`. При этом сохраните структуру директорий и содержимое файлов.
     * */
 
-    public static void copyDirectory(String sourcePath, String copyPath) {
+    public static void copyDirectory(Path sourcePath, Path copyPath) {
         try {
+            Files.walkFileTree(sourcePath, EnumSet.noneOf(FileVisitOption.class), Integer.MAX_VALUE, new SimpleFileVisitor<>() {
+                @Override
+                public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+                    Files.createDirectories(copyPath.resolve(sourcePath.relativize(dir)));
+                    return FileVisitResult.CONTINUE;
+                }
 
+                @Override
+                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                    Files.copy(file, copyPath.resolve(sourcePath.relativize(file)), StandardCopyOption.REPLACE_EXISTING);
+                    return FileVisitResult.CONTINUE;
+                }
+            });
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
