@@ -104,6 +104,10 @@ public class StreamInputOutputUtil {
     * Сравните содержимое двух файлов `file1.txt` и `file2.txt`. Выведите сообщение о том, равны ли файлы или нет.
     * */
 
+    public static boolean fileEquals(Path path1, Path path2) throws IOException {
+        return Files.mismatch(path1, path2) == -1;
+    }
+
     /*
     * [4]
     * Найдите все файлы с расширением `.txt` в директории `files`, прочитайте их содержимое и найдите

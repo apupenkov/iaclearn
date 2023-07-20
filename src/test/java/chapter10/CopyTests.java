@@ -12,7 +12,7 @@ public class CopyTests {
     class CopyDirectory {
         @ParameterizedTest(name = "Tested {index} tasks {displayName}")
         @CsvSource(value = {
-                "src,temp"
+                "src,destination"
         })
         public void copyDirectory(String source, String target) {
             StreamInputOutputUtil.copyDirectory(Paths.get(source), Paths.get(target));
