@@ -4,26 +4,24 @@ import book.chapter10.exceptions.StudentException;
 import book.chapter10.model.Student;
 
 import java.io.*;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
 import java.util.regex.Pattern;
 
-import static java.nio.charset.StandardCharsets.*;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class StreamInputOutputUtil {
 
     /*
-    * Дополнительные задачи для решения используя java.nio
-    * */
+     * Дополнительные задачи для решения используя java.nio
+     * */
 
     /*
-    * [1]
-    * Прочитайте содержимое файла `input.txt`, разбейте его на слова и подсчитайте
-    * количество слов. Затем выведите результат.
-    * */
+     * [1]
+     * Прочитайте содержимое файла `input.txt`, разбейте его на слова и подсчитайте
+     * количество слов. Затем выведите результат.
+     * */
 
     public static long getCountWords(String line) {
         try {
@@ -74,10 +72,10 @@ public class StreamInputOutputUtil {
     }
 
     /*
-    * [2]
-    * Скопируйте все файлы и поддиректории из директории `source` в директорию
-    * `destination`. При этом сохраните структуру директорий и содержимое файлов.
-    * */
+     * [2]
+     * Скопируйте все файлы и поддиректории из директории `source` в директорию
+     * `destination`. При этом сохраните структуру директорий и содержимое файлов.
+     * */
 
     public static void copyDirectory(Path sourcePath, Path copyPath) {
         try {
@@ -100,25 +98,25 @@ public class StreamInputOutputUtil {
     }
 
     /*
-    * [3]
-    * Сравните содержимое двух файлов `file1.txt` и `file2.txt`. Выведите сообщение о том, равны ли файлы или нет.
-    * */
+     * [3]
+     * Сравните содержимое двух файлов `file1.txt` и `file2.txt`. Выведите сообщение о том, равны ли файлы или нет.
+     * */
 
     public static boolean fileEquals(Path path1, Path path2) throws IOException {
         return Files.mismatch(path1, path2) == -1;
     }
 
     /*
-    * [4]
-    * Найдите все файлы с расширением `.txt` в директории `files`, прочитайте их содержимое и найдите
-    * все вхождения текста `keyword`. Выведите список файлов и количество вхождений ключевого слова в каждом файле.
-    * */
+     * [4]
+     * Найдите все файлы с расширением `.txt` в директории `files`, прочитайте их содержимое и найдите
+     * все вхождения текста `keyword`. Выведите список файлов и количество вхождений ключевого слова в каждом файле.
+     * */
 
     /*
-    * [5]
-    * Сравните содержимое двух файлов `file1.txt` и `file2.txt` построчно. Выведите номера строк, в
-    * которых содержимое файлов отличается.
-    * */
+     * [5]
+     * Сравните содержимое двух файлов `file1.txt` и `file2.txt` построчно. Выведите номера строк, в
+     * которых содержимое файлов отличается.
+     * */
 
     /*
     * Вариант A
