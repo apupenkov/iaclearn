@@ -112,6 +112,62 @@ public class StreamInputOutputUtil {
      * все вхождения текста `keyword`. Выведите список файлов и количество вхождений ключевого слова в каждом файле.
      * */
 
+    public static Map<String, Integer> findListFilesByWordContent(String path, String keyword) throws IOException {
+        try {
+            List<Path> txtFiles = findTxtFiles(path);
+            Map<String, Integer> fileOccurrences = new HashMap<>();
+
+            for (Path file : txtFiles) {
+                int occurrences = findKeywordOccurrences(file, keyword);
+                fileOccurrences.put(file.getFileName().toString(), occurrences);
+            }
+            return fileOccurrences;
+        } catch (IOException e) {
+            throw new IOException();
+        }
+    }
+
+    public static void main(String[] args) {
+        System.out.println("Список файлов и количество вхождений ключевого слова:");
+        try {
+            for (Map.Entry<String, Integer> entry : findListFilesByWordContent("src/test/resources/chapter10", "ipsum").entrySet()) {
+                System.out.println(entry.getKey() + ": " + entry.getValue());
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static List<Path> findTxtFiles(String directoryPath) throws IOException {
+        List<Path> txtFiles = new ArrayList<>();
+
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(directoryPath), "*.txt")) {
+            for (Path file : stream) {
+                txtFiles.add(file);
+            }
+        }
+
+        return txtFiles;
+    }
+
+    private static int findKeywordOccurrences(Path file, String keyword) throws IOException {
+        int occurrences = 0;
+
+        try (BufferedReader reader = Files.newBufferedReader(file)) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                int index = 0;
+                while ((index = line.indexOf(keyword, index)) != -1) {
+                    occurrences++;
+                    index += keyword.length();
+                }
+            }
+        }
+
+        return occurrences;
+    }
+
+
     /*
      * [5]
      * Сравните содержимое двух файлов `file1.txt` и `file2.txt` построчно. Выведите номера строк, в
