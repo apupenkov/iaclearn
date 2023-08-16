@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flower xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="flowers.xsd" xmlns="">
+    <Plant>
+        <Name>Rose</Name>
+        <Soil>podzolic</Soil>
+        <Origin>Europe</Origin>
+        <VisualParameters>
+            <StemColor>Red</StemColor>
+            <LeafColor>Green</LeafColor>
+            <AverageSize>Medium</AverageSize>
+        </VisualParameters>
+        <GrowingTips>
+            <Temperature>20</Temperature>
+            <Light>light-loving</Light>
+            <Watering>200</Watering>
+        </GrowingTips>
+        <Multiplying>seeds</Multiplying>
+    </Plant>
+</Flower>

@@ -8,11 +8,3 @@ gen
 build
 lib
 Selenium
-
-examples/*
-/src/main/java/book/chapter1
-/src/main/java/book/chapter2
-/src/main/java/book/chapter3
-/src/main/java/book/chapter4
-/src/main/java/book/chapter5
-/src/main/java/book/chapter6

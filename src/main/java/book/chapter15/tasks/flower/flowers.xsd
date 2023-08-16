@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<!DOCTYPE xs:schema [
+        <!ELEMENT xs:schema (xs:element|xs:simpleType)*>
+        <!ATTLIST xs:schema
+                xmlns:xs CDATA #REQUIRED>
+        <!ELEMENT xs:element (xs:complexType)*>
+        <!ATTLIST xs:element
+                maxOccurs CDATA #IMPLIED
+                minOccurs CDATA #IMPLIED
+                name CDATA #REQUIRED
+                type CDATA #IMPLIED>
+        <!ELEMENT xs:complexType (xs:sequence)*>
+        <!ELEMENT xs:sequence (xs:element)*>
+        <!ELEMENT xs:simpleType (xs:restriction)*>
+        <!ATTLIST xs:simpleType
+                name CDATA #REQUIRED>
+        <!ELEMENT xs:restriction (xs:enumeration)*>
+        <!ATTLIST xs:restriction
+                base CDATA #REQUIRED>
+        <!ELEMENT xs:enumeration (#PCDATA)>
+        <!ATTLIST xs:enumeration
+                value CDATA #REQUIRED>
+        ]>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="Flower">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Plant" minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="Name" type="xs:string"/>
+                            <xs:element name="Soil" type="SoilType"/>
+                            <xs:element name="Origin" type="xs:string"/>
+                            <xs:element name="VisualParameters">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="StemColor" type="xs:string"/>
+                                        <xs:element name="LeafColor" type="xs:string"/>
+                                        <xs:element name="AverageSize" type="SizeType"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="GrowingTips">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="Temperature" type="xs:int"/>
+                                        <xs:element name="Light" type="LightType"/>
+                                        <xs:element name="Watering" type="xs:int"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="Multiplying" type="MultiplyingType"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:simpleType name="SoilType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="podzolic"/>
+            <xs:enumeration value="ground"/>
+            <xs:enumeration value="podzol-forest"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="SizeType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Small"/>
+            <xs:enumeration value="Medium"/>
+            <xs:enumeration value="Large"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="LightType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="light-loving"/>
+            <xs:enumeration value="not-light-loving"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="MultiplyingType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="leaves"/>
+            <xs:enumeration value="cuttings"/>
+            <xs:enumeration value="seeds"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

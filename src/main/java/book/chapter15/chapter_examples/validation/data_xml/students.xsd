@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://www.example.com/students"
+        xmlns:tns="http://www.example.com/students" elementFormDefault="qualified">
+    <element name="students">
+        <complexType>
+            <sequence>
+                <element name="student" type="tns:Student" minOccurs="1" maxOccurs="100"/>
+            </sequence>
+        </complexType>
+    </element>
+    <complexType name="Student">
+        <sequence>
+            <element name="name" type="string"/>
+            <element name="telephone" type="positiveInteger"/>
+            <element name="address" type="tns:Address"/>
+        </sequence>
+        <attribute name="login" type="tns:Login" use="required"/>
+        <attribute name="faculty" use="optional" default="mmf">
+            <simpleType>
+                <restriction base="string">
+                    <enumeration value="mmf"/>
+                    <enumeration value="famcs"/>
+                    <enumeration value="csan"/>
+                </restriction>
+            </simpleType>
+        </attribute>
+    </complexType>
+    <simpleType name="Login">
+        <restriction base="ID">
+            <pattern value="([a-zA-Z])[a-zA-Z0-9]{7,19}"/>
+        </restriction>
+    </simpleType>
+    <complexType name="Address">
+        <sequence>
+            <element name="country" type="string"/>
+            <element name="city" type="string"/>
+            <element name="street" type="string"/>
+        </sequence>
+    </complexType>
+</schema>
